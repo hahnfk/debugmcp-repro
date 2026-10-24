@@ -1,0 +1,1095 @@
+{
+  "date": "2026-10-24",
+  "timezone": "Europe/Berlin",
+  "versions": {
+    "runtime": "10.0.13",
+    "csharp": "2.160.4",
+    "vscode": "1.143.1",
+    "debugmcp": "2.4.3",
+    "sdk": "10.0.402",
+    "csdevkit": "3.40.215"
+  },
+  "build": {
+    "optimized": false,
+    "requireExactSource": true,
+    "portablePdb": true,
+    "configuration": "Debug"
+  },
+  "connection": {
+    "exactReproRegistrationCount": 1,
+    "endpoint": "http://localhost:3002/mcp",
+    "registeredWindowCount": 2,
+    "transport": "independent public Streamable HTTP",
+    "clientName": "debugmcp_repro",
+    "existingConnectionUnchanged": true
+  },
+  "scope": "No unexpected expression failure in performed positive A-E trials. Full three-channel comparisons passed for A top frame, C after suspension at line 39, and E return breakpoint at line 61. Caller-selection trial correctly evaluated Main scope but reproduced mixed selected-frame ID and top-frame source metadata in get_debug_status.",
+  "automaticTrials": [
+    {
+      "frameSelection": "automatic",
+      "expressions": [
+        {
+          "expression": "1+1",
+          "observed": "Expression: 1+1\nResult: 2 (int)"
+        },
+        {
+          "expression": "localNumber",
+          "observed": "Expression: localNumber\nResult: 41 (int)"
+        },
+        {
+          "expression": "appendResult",
+          "observed": "Expression: appendResult\nResult: <complex value> (DebugMcpRepro.AppendResult)\n  appendResult.IsFailure (bool)\n  appendResult.Value (int)"
+        },
+        {
+          "expression": "appendResult.IsFailure",
+          "observed": "Expression: appendResult.IsFailure\nResult: true (bool)"
+        },
+        {
+          "expression": "appendResult.Value",
+          "observed": "Expression: appendResult.Value\nResult: 7 (int)"
+        },
+        {
+          "expression": "System.Environment.ProcessId",
+          "observed": "Expression: System.Environment.ProcessId\nResult: 25320 (int)"
+        },
+        {
+          "expression": "typeof(DebugMcpRepro.Scenarios).Assembly.Location",
+          "observed": "Expression: typeof(DebugMcpRepro.Scenarios).Assembly.Location\nResult: \"D:\\\\code\\\\github-com\\\\hahnfk\\\\debugmcp-repro\\\\bin\\\\Debug\\\\net10.0\\\\DebugMcpRepro.dll\" (string)"
+        }
+      ],
+      "frame": "DebugMcpRepro.dll!DebugMcpRepro.Scenarios.Synchronous() Line 12",
+      "processId": 25320,
+      "case": "A",
+      "threadId": 29960,
+      "actualLine": 12,
+      "cleanup": "no-session; own process absent; owned breakpoint removed",
+      "requestedLine": 12,
+      "configuration": "Repro A - synchronous",
+      "frameId": 1000
+    },
+    {
+      "frameSelection": "automatic",
+      "case": "B",
+      "cleanup": {
+        "breakpoints": "No breakpoints currently set",
+        "status": "no-session"
+      },
+      "requestedLines": [
+        22
+      ],
+      "configuration": "Repro B - completed await",
+      "negativeControl": false,
+      "pauses": [
+        {
+          "expressions": [
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "1+1",
+              "observed": "Expression: 1+1\nResult: 2 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "localNumber",
+              "observed": "Expression: localNumber\nResult: 42 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult",
+              "observed": "Expression: appendResult\nResult: <complex value> (DebugMcpRepro.AppendResult)\n  appendResult.IsFailure (bool)\n  appendResult.Value (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult.IsFailure",
+              "observed": "Expression: appendResult.IsFailure\nResult: true (bool)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult.Value",
+              "observed": "Expression: appendResult.Value\nResult: 7 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "System.Environment.ProcessId",
+              "observed": "Expression: System.Environment.ProcessId\nResult: 48796 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "completedBeforeAwait",
+              "observed": "Expression: completedBeforeAwait\nResult: true (bool)"
+            }
+          ],
+          "actualLine": 22,
+          "selectedValues": "Variables:\n==========\n\nLocals:\n  localNumber: 42 (int)\n  appendResult (DebugMcpRepro.AppendResult)\n    appendResult.IsFailure (bool)\n    appendResult.Value (int)\n\n",
+          "frame": "DebugMcpRepro.dll!DebugMcpRepro.Scenarios.CompletedAwaitAsync() Line 22",
+          "visibleNames": "Variables in scope (names only - no values were read):\n=====================================================\n\nLocals:\n  localNumber (int)\n  completedTask (System.Threading.Tasks.Task<DebugMcpRepro.AppendResult>)\n  completedBeforeAwait (bool)\n  appendResult (DebugMcpRepro.AppendResult)\n  result (int)\n\nUse get_variables_values with the names you need, e.g. { \"variableNames\": [\"user\"] }.\n",
+          "frameId": 1000,
+          "threadId": 40456
+        }
+      ]
+    },
+    {
+      "frameSelection": "automatic",
+      "case": "C",
+      "cleanup": {
+        "breakpoints": "No breakpoints currently set",
+        "status": "no-session"
+      },
+      "requestedLines": [
+        37,
+        39
+      ],
+      "configuration": "Repro C - suspended await",
+      "negativeControl": false,
+      "pauses": [
+        {
+          "expressions": [
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "1+1",
+              "observed": "Expression: 1+1\nResult: 2 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "localNumber",
+              "observed": "Expression: localNumber\nResult: 43 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult",
+              "observed": "Expression: appendResult\nResult: <complex value> (DebugMcpRepro.AppendResult)\n  appendResult.IsFailure (bool)\n  appendResult.Value (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult.IsFailure",
+              "observed": "Expression: appendResult.IsFailure\nResult: true (bool)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult.Value",
+              "observed": "Expression: appendResult.Value\nResult: 7 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "System.Environment.ProcessId",
+              "observed": "Expression: System.Environment.ProcessId\nResult: 52856 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "completedBeforeAwait",
+              "observed": "Expression: completedBeforeAwait\nResult: false (bool)"
+            }
+          ],
+          "actualLine": 37,
+          "selectedValues": "Variables:\n==========\n\nLocals:\n  localNumber: 43 (int)\n  appendResult (DebugMcpRepro.AppendResult)\n    appendResult.IsFailure (bool)\n    appendResult.Value (int)\n\n",
+          "frame": "DebugMcpRepro.dll!DebugMcpRepro.Scenarios.SuspendedAwaitAsync() Line 37",
+          "visibleNames": "Variables in scope (names only - no values were read):\n=====================================================\n\nLocals:\n  localNumber (int)\n  appendResult (DebugMcpRepro.AppendResult)\n  suspension (System.Runtime.CompilerServices.YieldAwaitable)\n  completedBeforeAwait (bool)\n  result (int)\n\nUse get_variables_values with the names you need, e.g. { \"variableNames\": [\"user\"] }.\n",
+          "frameId": 1000,
+          "threadId": 39332
+        },
+        {
+          "expressions": [
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "1+1",
+              "observed": "Expression: 1+1\nResult: 2 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "localNumber",
+              "observed": "Expression: localNumber\nResult: 43 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult",
+              "observed": "Expression: appendResult\nResult: <complex value> (DebugMcpRepro.AppendResult)\n  appendResult.IsFailure (bool)\n  appendResult.Value (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult.IsFailure",
+              "observed": "Expression: appendResult.IsFailure\nResult: true (bool)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult.Value",
+              "observed": "Expression: appendResult.Value\nResult: 7 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "System.Environment.ProcessId",
+              "observed": "Expression: System.Environment.ProcessId\nResult: 52856 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "completedBeforeAwait",
+              "observed": "Expression: completedBeforeAwait\nResult: false (bool)"
+            }
+          ],
+          "actualLine": 39,
+          "selectedValues": "Variables:\n==========\n\nLocals:\n  localNumber: 43 (int)\n  appendResult (DebugMcpRepro.AppendResult)\n    appendResult.IsFailure (bool)\n    appendResult.Value (int)\n\n",
+          "frame": "DebugMcpRepro.dll!DebugMcpRepro.Scenarios.SuspendedAwaitAsync() Line 39",
+          "visibleNames": "Variables in scope (names only - no values were read):\n=====================================================\n\nLocals:\n  localNumber (int)\n  appendResult (DebugMcpRepro.AppendResult)\n  suspension (System.Runtime.CompilerServices.YieldAwaitable)\n  completedBeforeAwait (bool)\n  result (int)\n\nUse get_variables_values with the names you need, e.g. { \"variableNames\": [\"user\"] }.\n",
+          "frameId": 1000,
+          "threadId": 53508
+        }
+      ]
+    },
+    {
+      "frameSelection": "automatic",
+      "case": "D_TRUE",
+      "cleanup": {
+        "breakpoints": "No breakpoints currently set",
+        "status": "no-session"
+      },
+      "requestedLines": [
+        52
+      ],
+      "configuration": "Repro D - assigned after await (failure true)",
+      "negativeControl": false,
+      "pauses": [
+        {
+          "expressions": [
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "1+1",
+              "observed": "Expression: 1+1\nResult: 2 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "localNumber",
+              "observed": "Expression: localNumber\nResult: 44 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult",
+              "observed": "Expression: appendResult\nResult: <complex value> (DebugMcpRepro.AppendResult)\n  appendResult.IsFailure (bool)\n  appendResult.Value (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult.IsFailure",
+              "observed": "Expression: appendResult.IsFailure\nResult: true (bool)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult.Value",
+              "observed": "Expression: appendResult.Value\nResult: 7 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "System.Environment.ProcessId",
+              "observed": "Expression: System.Environment.ProcessId\nResult: 49088 (int)"
+            }
+          ],
+          "actualLine": 52,
+          "selectedValues": "Variables:\n==========\n\nLocals:\n  localNumber: 44 (int)\n  appendResult (DebugMcpRepro.AppendResult)\n    appendResult.IsFailure (bool)\n    appendResult.Value (int)\n\n",
+          "frame": "DebugMcpRepro.dll!DebugMcpRepro.Scenarios.AssignedAfterAwaitAsync(bool isFailure) Line 52",
+          "visibleNames": "Variables in scope (names only - no values were read):\n=====================================================\n\nLocals:\n  isFailure (bool)\n  localNumber (int)\n  appendResult (DebugMcpRepro.AppendResult)\n  result (int)\n\nUse get_variables_values with the names you need, e.g. { \"variableNames\": [\"user\"] }.\n",
+          "frameId": 1000,
+          "threadId": 22128
+        }
+      ]
+    },
+    {
+      "frameSelection": "automatic",
+      "case": "D_FALSE",
+      "cleanup": {
+        "breakpoints": "No breakpoints currently set",
+        "status": "no-session"
+      },
+      "requestedLines": [
+        52
+      ],
+      "configuration": "Repro D - assigned after await (failure false)",
+      "negativeControl": false,
+      "pauses": [
+        {
+          "expressions": [
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "1+1",
+              "observed": "Expression: 1+1\nResult: 2 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "localNumber",
+              "observed": "Expression: localNumber\nResult: 44 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult",
+              "observed": "Expression: appendResult\nResult: <complex value> (DebugMcpRepro.AppendResult)\n  appendResult.IsFailure (bool)\n  appendResult.Value (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult.IsFailure",
+              "observed": "Expression: appendResult.IsFailure\nResult: false (bool)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult.Value",
+              "observed": "Expression: appendResult.Value\nResult: 7 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "System.Environment.ProcessId",
+              "observed": "Expression: System.Environment.ProcessId\nResult: 32080 (int)"
+            }
+          ],
+          "actualLine": 52,
+          "selectedValues": "Variables:\n==========\n\nLocals:\n  localNumber: 44 (int)\n  appendResult (DebugMcpRepro.AppendResult)\n    appendResult.IsFailure (bool)\n    appendResult.Value (int)\n\n",
+          "frame": "DebugMcpRepro.dll!DebugMcpRepro.Scenarios.AssignedAfterAwaitAsync(bool isFailure) Line 52",
+          "visibleNames": "Variables in scope (names only - no values were read):\n=====================================================\n\nLocals:\n  isFailure (bool)\n  localNumber (int)\n  appendResult (DebugMcpRepro.AppendResult)\n  result (int)\n\nUse get_variables_values with the names you need, e.g. { \"variableNames\": [\"user\"] }.\n",
+          "frameId": 1000,
+          "threadId": 11312
+        }
+      ]
+    },
+    {
+      "frameSelection": "automatic",
+      "case": "E_STEP",
+      "cleanup": {
+        "breakpoints": "No breakpoints currently set",
+        "status": "no-session"
+      },
+      "requestedLines": [
+        60
+      ],
+      "configuration": "Repro E - projection return",
+      "negativeControl": false,
+      "pauses": [
+        {
+          "expressions": [
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "1+1",
+              "observed": "Expression: 1+1\nResult: 2 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "localNumber",
+              "observed": "Expression: localNumber\nResult: 45 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult",
+              "observed": "Expression: appendResult\nResult: <complex value> (DebugMcpRepro.AppendResult)\n  appendResult.IsFailure (bool)\n  appendResult.Value (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult.IsFailure",
+              "observed": "Expression: appendResult.IsFailure\nResult: true (bool)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult.Value",
+              "observed": "Expression: appendResult.Value\nResult: 7 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "System.Environment.ProcessId",
+              "observed": "Expression: System.Environment.ProcessId\nResult: 25868 (int)"
+            }
+          ],
+          "actualLine": 60,
+          "selectedValues": "Variables:\n==========\n\nLocals:\n  appendResult (DebugMcpRepro.AppendResult)\n    appendResult.IsFailure (bool)\n    appendResult.Value (int)\n  localNumber: 45 (int)\n\n",
+          "frame": "DebugMcpRepro.dll!DebugMcpRepro.Scenarios.ProjectionAsync() Line 60",
+          "visibleNames": "Variables in scope (names only - no values were read):\n=====================================================\n\nLocals:\n  appendResult (DebugMcpRepro.AppendResult)\n  localNumber (int)\n\nUse get_variables_values with the names you need, e.g. { \"variableNames\": [\"user\"] }.\n",
+          "frameId": 1000,
+          "threadId": 38120
+        },
+        {
+          "expressions": [
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "1+1",
+              "observed": "Expression: 1+1\nResult: 2 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "localNumber",
+              "observed": "Expression: localNumber\nResult: 45 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult",
+              "observed": "Expression: appendResult\nResult: <complex value> (DebugMcpRepro.AppendResult)\n  appendResult.IsFailure (bool)\n  appendResult.Value (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult.IsFailure",
+              "observed": "Expression: appendResult.IsFailure\nResult: true (bool)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult.Value",
+              "observed": "Expression: appendResult.Value\nResult: 7 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "System.Environment.ProcessId",
+              "observed": "Expression: System.Environment.ProcessId\nResult: 25868 (int)"
+            }
+          ],
+          "actualLine": 61,
+          "selectedValues": "Variables:\n==========\n\nLocals:\n  appendResult (DebugMcpRepro.AppendResult)\n    appendResult.IsFailure (bool)\n    appendResult.Value (int)\n  localNumber: 45 (int)\n\n",
+          "frame": "DebugMcpRepro.dll!DebugMcpRepro.Scenarios.ProjectionAsync() Line 61",
+          "visibleNames": "Variables in scope (names only - no values were read):\n=====================================================\n\nLocals:\n  appendResult (DebugMcpRepro.AppendResult)\n  localNumber (int)\n\nUse get_variables_values with the names you need, e.g. { \"variableNames\": [\"user\"] }.\n",
+          "frameId": 1000,
+          "threadId": 38120
+        }
+      ]
+    },
+    {
+      "frameSelection": "automatic",
+      "case": "E_RETURN",
+      "cleanup": {
+        "breakpoints": "No breakpoints currently set",
+        "status": "no-session"
+      },
+      "requestedLines": [
+        61
+      ],
+      "configuration": "Repro E - projection return",
+      "negativeControl": false,
+      "pauses": [
+        {
+          "expressions": [
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "1+1",
+              "observed": "Expression: 1+1\nResult: 2 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "localNumber",
+              "observed": "Expression: localNumber\nResult: 45 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult",
+              "observed": "Expression: appendResult\nResult: <complex value> (DebugMcpRepro.AppendResult)\n  appendResult.IsFailure (bool)\n  appendResult.Value (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult.IsFailure",
+              "observed": "Expression: appendResult.IsFailure\nResult: true (bool)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "appendResult.Value",
+              "observed": "Expression: appendResult.Value\nResult: 7 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "System.Environment.ProcessId",
+              "observed": "Expression: System.Environment.ProcessId\nResult: 31204 (int)"
+            }
+          ],
+          "actualLine": 61,
+          "selectedValues": "Variables:\n==========\n\nLocals:\n  appendResult (DebugMcpRepro.AppendResult)\n    appendResult.IsFailure (bool)\n    appendResult.Value (int)\n  localNumber: 45 (int)\n\n",
+          "frame": "DebugMcpRepro.dll!DebugMcpRepro.Scenarios.ProjectionAsync() Line 61",
+          "visibleNames": "Variables in scope (names only - no values were read):\n=====================================================\n\nLocals:\n  appendResult (DebugMcpRepro.AppendResult)\n  localNumber (int)\n\nUse get_variables_values with the names you need, e.g. { \"variableNames\": [\"user\"] }.\n",
+          "frameId": 1000,
+          "threadId": 38332
+        }
+      ]
+    },
+    {
+      "frameSelection": "automatic",
+      "case": "F",
+      "cleanup": {
+        "breakpoints": "No breakpoints currently set",
+        "status": "no-session"
+      },
+      "requestedLines": [
+        72
+      ],
+      "configuration": "Repro F - out of scope (negative control)",
+      "negativeControl": true,
+      "pauses": [
+        {
+          "expressions": [
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "1+1",
+              "observed": "Expression: 1+1\nResult: 2 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "localNumber",
+              "observed": "Expression: localNumber\nResult: 53 (int)"
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "outOfScope",
+              "observed": "Expression: outOfScope\nResult: error CS0103: Der Name \"outOfScope\" ist im aktuellen Kontext nicht vorhanden."
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "outOfScope.IsFailure",
+              "observed": "Expression: outOfScope.IsFailure\nResult: error CS0103: Der Name \"outOfScope\" ist im aktuellen Kontext nicht vorhanden."
+            },
+            {
+              "mcpIsErrorFlag": null,
+              "expression": "System.Environment.ProcessId",
+              "observed": "Expression: System.Environment.ProcessId\nResult: 6620 (int)"
+            }
+          ],
+          "actualLine": 72,
+          "selectedValues": "Variables:\n==========\n\nLocals:\n  localNumber: 53 (int)\n\nNot found in any scope: outOfScope. They may be out of scope here, or nested inside an object - try evaluate_expression.\n",
+          "frame": "DebugMcpRepro.dll!DebugMcpRepro.Scenarios.OutOfScope() Line 72",
+          "visibleNames": "Variables in scope (names only - no values were read):\n=====================================================\n\nLocals:\n  localNumber (int)\n  result (int)\n\nUse get_variables_values with the names you need, e.g. { \"variableNames\": [\"user\"] }.\n",
+          "frameId": 1000,
+          "threadId": 55172
+        }
+      ]
+    }
+  ],
+  "manualComparisonA": {
+    "observed": [
+      {
+        "expression": "1+1",
+        "observed": "2"
+      },
+      {
+        "expression": "localNumber",
+        "observed": "41"
+      },
+      {
+        "expression": "appendResult",
+        "observed": "DebugMcpRepro.AppendResult; IsFailure=true; Value=7"
+      },
+      {
+        "expression": "appendResult.IsFailure",
+        "observed": "true"
+      }
+    ],
+    "mcpAfterManual": [
+      {
+        "expression": "1+1",
+        "observed": "Expression: 1+1\nResult: 2 (int)"
+      },
+      {
+        "expression": "localNumber",
+        "observed": "Expression: localNumber\nResult: 41 (int)"
+      },
+      {
+        "expression": "appendResult",
+        "observed": "Expression: appendResult\nResult: <complex value> (DebugMcpRepro.AppendResult)\n  appendResult.IsFailure (bool)\n  appendResult.Value (int)"
+      },
+      {
+        "expression": "appendResult.IsFailure",
+        "observed": "Expression: appendResult.IsFailure\nResult: true (bool)"
+      }
+    ],
+    "processId": 27996,
+    "channel": "VS Code Debug Console, manually entered expressions",
+    "actualLine": 12,
+    "cleanup": "continued normally before 300-second deadline; no-session, PID absent, owned breakpoint removed",
+    "configuration": "Repro A - synchronous",
+    "selection": "User explicitly selected Synchronous frame in CALL STACK; screenshot supplied"
+  },
+  "conditionalTrials": [
+    {
+      "condition": "appendResult.IsFailure",
+      "state": {
+        "sessionActive": true,
+        "paused": true,
+        "configurationName": "Repro D - assigned after await (failure true)",
+        "stackTrace": [
+          "DebugMcpRepro.dll!DebugMcpRepro.Scenarios.AssignedAfterAwaitAsync(bool isFailure) Line 52:52",
+          "[Async Call Stack]:?",
+          "[Async] DebugMcpRepro.dll!DebugMcpRepro.Program.Main(string[] args) Line 29:29"
+        ],
+        "breakpoints": [
+          "Scenarios.cs:52 [when: appendResult.IsFailure]"
+        ],
+        "fileFullPath": "d:\\code\\github-com\\hahnfk\\debugmcp-repro\\Scenarios.cs",
+        "fileName": "Scenarios.cs",
+        "currentLine": 52,
+        "currentLineContent": "var result = localNumber + (appendResult.IsFailure ? -appendResult.Value : appendResult.Value); // BREAK D",
+        "nextLines": [
+          "return result;",
+          "}",
+          "public static async Task<int> ProjectionAsync()"
+        ],
+        "frameId": 1000,
+        "threadId": 40060,
+        "frameName": "DebugMcpRepro.dll!DebugMcpRepro.Scenarios.AssignedAfterAwaitAsync(bool isFailure) Line 52"
+      },
+      "observedPaused": true,
+      "rawStopReason": "not exposed",
+      "actualLine": 52,
+      "expressions": [
+        {
+          "expression": "1+1",
+          "observed": "Expression: 1+1\nResult: 2 (int)"
+        },
+        {
+          "expression": "localNumber",
+          "observed": "Expression: localNumber\nResult: 44 (int)"
+        },
+        {
+          "expression": "appendResult",
+          "observed": "Expression: appendResult\nResult: <complex value> (DebugMcpRepro.AppendResult)\n  appendResult.IsFailure (bool)\n  appendResult.Value (int)"
+        },
+        {
+          "expression": "appendResult.IsFailure",
+          "observed": "Expression: appendResult.IsFailure\nResult: true (bool)"
+        },
+        {
+          "expression": "System.Environment.ProcessId",
+          "observed": "Expression: System.Environment.ProcessId\nResult: 51940 (int)"
+        }
+      ],
+      "requestedLine": 52,
+      "configuration": "Repro D - assigned after await (failure true)",
+      "variant": "true",
+      "cleanup": {
+        "breakpoints": "No breakpoints currently set",
+        "status": "no-session"
+      },
+      "startResponse": "Debug session stopped at breakpoint for: d:\\code\\github-com\\hahnfk\\debugmcp-repro\\Scenarios.cs using configuration 'Repro D - assigned after await (failure true)'. Current state: {\n  \"sessionActive\": true,\n  \"paused\": true,\n  \"configurationName\": \"Repro D - assigned after await (failure true)\",\n  \"stackTrace\": [\n    \"DebugMcpRepro.dll!DebugMcpRepro.Scenarios.AssignedAfterAwaitAsync(bool isFailure) Line 52:52\",\n    \"[Async Call Stack]:?\",\n    \"[Async] DebugMcpRepro.dll!DebugMcpRepro.Program.Main(string[] args) Line 29:29\"\n  ],\n  \"breakpoints\": [\n    \"Scenarios.cs:52 [when: appendResult.IsFailure]\"\n  ],\n  \"fileFullPath\": \"d:\\\\code\\\\github-com\\\\hahnfk\\\\debugmcp-repro\\\\Scenarios.cs\",\n  \"fileName\": \"Scenarios.cs\",\n  \"currentLine\": 52,\n  \"currentLineContent\": \"var result = localNumber + (appendResult.IsFailure ? -appendResult.Value : appendResult.Value); // BREAK D\",\n  \"nextLines\": [\n    \"return result;\",\n    \"}\",\n    \"public static async Task<int> ProjectionAsync()\"\n  ],\n  \"frameId\": 1000,\n  \"threadId\": 40060,\n  \"frameName\": \"DebugMcpRepro.dll!DebugMcpRepro.Scenarios.AssignedAfterAwaitAsync(bool isFailure) Line 52\"\n}"
+    },
+    {
+      "condition": "appendResult.IsFailure",
+      "state": null,
+      "observedPaused": false,
+      "rawStopReason": "not exposed",
+      "actualLine": null,
+      "expressions": [],
+      "requestedLine": 52,
+      "configuration": "Repro D - assigned after await (failure false)",
+      "variant": "false",
+      "cleanup": {
+        "breakpoints": "No breakpoints currently set",
+        "status": "no-session"
+      },
+      "startResponse": "Debug session is running but did not stop or terminate within the timeout for: d:\\code\\github-com\\hahnfk\\debugmcp-repro\\Scenarios.cs using configuration 'Repro D - assigned after await (failure false)'. Current state: {\n  \"sessionActive\": false,\n  \"paused\": false\n}"
+    }
+  ],
+  "limitations": [
+    "Direct/post-manual comparisons not performed for B, D or F",
+    "C before-suspension line 37 has no direct/post-manual comparison",
+    "E before-return line 60 and stepping-to-return variant have no direct/post-manual comparison; direct return breakpoint line 61 does",
+    "Direct UI comparison of conditional breakpoints not performed",
+    "Only one caller-selection comparison completed; other deeper async/lambda frames and fresh-launch repeats remain untested",
+    "Raw DAP stop reason and condition-error metadata not exposed",
+    "Launch-termination anomaly observed once; event-order hypothesis unproven",
+    "Mixed-frame metadata does not prove the cause of the historical application-specific failure"
+  ],
+  "launchWaitObservation": {
+    "timingBasis": "difference between completed conditional trial file timestamps",
+    "startResponseContradictedEmbeddedState": true,
+    "parallelStatus": "no-session while false start call still pending",
+    "approximateSeconds": 180.5,
+    "repeatCount": 1
+  },
+  "artifactSha256": [
+    {
+      "sha256": "2A3617C38059B9E22A69408AC08C3E16AB8422D8323EE2DD908FA31361A300A7",
+      "file": "Program.cs"
+    },
+    {
+      "sha256": "C09174C616EE7C935DA9B17863D0C5B38D26F81A53ABE781221925873C945717",
+      "file": "Scenarios.cs"
+    },
+    {
+      "sha256": "3786D4E00E394FD52087F3E2C8D061263C513A3E388BE4E88C7B845586FEADBF",
+      "file": "AppendResult.cs"
+    },
+    {
+      "sha256": "2E05AE6EC24A4DC7A0310531EA1AB1E646D7D3C73B76B2CDB830F44504E7E298",
+      "file": "DebugMcpRepro.dll"
+    },
+    {
+      "sha256": "F879C69C833DCF3968456907E4D686E746DBA1EA0594228FED52EAD37B8ACDF6",
+      "file": "DebugMcpRepro.pdb"
+    }
+  ],
+  "finalCleanup": {
+    "ownMcpConnectionCloseHttpStatus": 200,
+    "remainingOwnedDebuggeeCount": 0,
+    "debugStatus": "no-session",
+    "breakpoints": "No breakpoints currently set",
+    "phase": "caller frame selection comparison"
+  },
+  "manualComparisonsCE": [
+    {
+      "supplementalScreenshot": "codex-clipboard-6766b514-2ab1-4757-9a4e-9dcb9e3426e8.png",
+      "mcpAfterManual": [
+        {
+          "expression": "1+1",
+          "observed": "Expression: 1+1\nResult: 2 (int)"
+        },
+        {
+          "expression": "localNumber",
+          "observed": "Expression: localNumber\nResult: 43 (int)"
+        },
+        {
+          "expression": "appendResult",
+          "observed": "Expression: appendResult\nResult: <complex value> (DebugMcpRepro.AppendResult)\n  appendResult.IsFailure (bool)\n  appendResult.Value (int)"
+        },
+        {
+          "expression": "appendResult.IsFailure",
+          "observed": "Expression: appendResult.IsFailure\nResult: true (bool)"
+        },
+        {
+          "expression": "appendResult.Value",
+          "observed": "Expression: appendResult.Value\nResult: 7 (int)"
+        }
+      ],
+      "actualLine": 39,
+      "frameId": 1000,
+      "processId": 24180,
+      "threadId": 7188,
+      "configuration": "Repro C - suspended await",
+      "requestedLine": 39,
+      "directConsole": {
+        "screenshot": "codex-clipboard-f91ec13c-4a78-4d81-8c6d-1e390a2ba833.png",
+        "performedBy": "user",
+        "expressions": [
+          {
+            "observed": "2",
+            "expression": "1+1"
+          },
+          {
+            "observed": "43",
+            "expression": "localNumber"
+          },
+          {
+            "observed": "DebugMcpRepro.AppendResult; IsFailure=true; Value=7",
+            "expression": "appendResult"
+          },
+          {
+            "observed": "true",
+            "expression": "appendResult.IsFailure"
+          }
+        ]
+      },
+      "outcome": "passed; no difference among three comparison channels",
+      "cleanup": {
+        "processStillPresent": false,
+        "status": "no-session",
+        "deadlineApplied": false,
+        "breakpoints": "No breakpoints currently set"
+      },
+      "case": "C_AFTER",
+      "automaticBeforeManual": [
+        {
+          "expression": "1+1",
+          "observed": "Expression: 1+1\nResult: 2 (int)"
+        },
+        {
+          "expression": "localNumber",
+          "observed": "Expression: localNumber\nResult: 43 (int)"
+        },
+        {
+          "expression": "appendResult",
+          "observed": "Expression: appendResult\nResult: <complex value> (DebugMcpRepro.AppendResult)\n  appendResult.IsFailure (bool)\n  appendResult.Value (int)"
+        },
+        {
+          "expression": "appendResult.IsFailure",
+          "observed": "Expression: appendResult.IsFailure\nResult: true (bool)"
+        },
+        {
+          "expression": "appendResult.Value",
+          "observed": "Expression: appendResult.Value\nResult: 7 (int)"
+        },
+        {
+          "expression": "typeof(DebugMcpRepro.Scenarios).Assembly.Location",
+          "observed": "Expression: typeof(DebugMcpRepro.Scenarios).Assembly.Location\nResult: \"D:\\\\code\\\\github-com\\\\hahnfk\\\\debugmcp-repro\\\\bin\\\\Debug\\\\net10.0\\\\DebugMcpRepro.dll\" (string)"
+        },
+        {
+          "expression": "completedBeforeAwait",
+          "observed": "Expression: completedBeforeAwait\nResult: false (bool)"
+        }
+      ],
+      "windowSeconds": 300,
+      "source": "Scenarios.cs",
+      "frame": "DebugMcpRepro.dll!DebugMcpRepro.Scenarios.SuspendedAwaitAsync() Line 39"
+    },
+    {
+      "mcpAfterManual": [
+        {
+          "expression": "1+1",
+          "observed": "Expression: 1+1\nResult: 2 (int)"
+        },
+        {
+          "expression": "localNumber",
+          "observed": "Expression: localNumber\nResult: 45 (int)"
+        },
+        {
+          "expression": "appendResult",
+          "observed": "Expression: appendResult\nResult: <complex value> (DebugMcpRepro.AppendResult)\n  appendResult.IsFailure (bool)\n  appendResult.Value (int)"
+        },
+        {
+          "expression": "appendResult.IsFailure",
+          "observed": "Expression: appendResult.IsFailure\nResult: true (bool)"
+        },
+        {
+          "expression": "appendResult.Value",
+          "observed": "Expression: appendResult.Value\nResult: 7 (int)"
+        }
+      ],
+      "actualLine": 61,
+      "frameId": 1000,
+      "processId": 52764,
+      "threadId": 8536,
+      "configuration": "Repro E - projection return",
+      "requestedLine": 61,
+      "directConsole": {
+        "screenshot": "codex-clipboard-99453b02-866d-4cf7-8adb-d12169b9c7f1.png",
+        "expressions": [
+          {
+            "observed": "2",
+            "expression": "1+1"
+          },
+          {
+            "observed": "45",
+            "expression": "localNumber"
+          },
+          {
+            "observed": "DebugMcpRepro.AppendResult; IsFailure=true; Value=7",
+            "expression": "appendResult"
+          },
+          {
+            "observed": "true",
+            "expression": "appendResult.IsFailure"
+          }
+        ],
+        "performedBy": "user"
+      },
+      "outcome": "passed; no difference among three comparison channels",
+      "cleanup": {
+        "processStillPresent": false,
+        "status": "no-session",
+        "deadlineApplied": false,
+        "breakpoints": "No breakpoints currently set"
+      },
+      "case": "E_RETURN",
+      "automaticBeforeManual": [
+        {
+          "expression": "1+1",
+          "observed": "Expression: 1+1\nResult: 2 (int)"
+        },
+        {
+          "expression": "localNumber",
+          "observed": "Expression: localNumber\nResult: 45 (int)"
+        },
+        {
+          "expression": "appendResult",
+          "observed": "Expression: appendResult\nResult: <complex value> (DebugMcpRepro.AppendResult)\n  appendResult.IsFailure (bool)\n  appendResult.Value (int)"
+        },
+        {
+          "expression": "appendResult.IsFailure",
+          "observed": "Expression: appendResult.IsFailure\nResult: true (bool)"
+        },
+        {
+          "expression": "appendResult.Value",
+          "observed": "Expression: appendResult.Value\nResult: 7 (int)"
+        },
+        {
+          "expression": "typeof(DebugMcpRepro.Scenarios).Assembly.Location",
+          "observed": "Expression: typeof(DebugMcpRepro.Scenarios).Assembly.Location\nResult: \"D:\\\\code\\\\github-com\\\\hahnfk\\\\debugmcp-repro\\\\bin\\\\Debug\\\\net10.0\\\\DebugMcpRepro.dll\" (string)"
+        }
+      ],
+      "windowSeconds": 300,
+      "source": "Scenarios.cs",
+      "frame": "DebugMcpRepro.dll!DebugMcpRepro.Scenarios.ProjectionAsync() Line 61"
+    }
+  ],
+  "callerFrameComparison": {
+    "mcpSelectedValues": "Variables:\n==========\n\nLocals:\n  args (string[])\n    args[0] (string)\n  scenario: \"sync\" (string)\n\nNot found in any scope: localNumber. They may be out of scope here, or nested inside an object - try evaluate_expression.\n",
+    "physicalStop": {
+      "line": 12,
+      "method": "Scenarios.Synchronous",
+      "file": "Scenarios.cs"
+    },
+    "processId": 13336,
+    "initialAutomaticStatus": {
+      "status": "paused",
+      "paused": true,
+      "sessionActive": true,
+      "configurationName": "Repro A - synchronous",
+      "breakpoints": [
+        "Scenarios.cs:12"
+      ],
+      "requestedWaitSeconds": 0,
+      "effectiveWaitSeconds": 0,
+      "state": {
+        "sessionActive": true,
+        "paused": true,
+        "configurationName": "Repro A - synchronous",
+        "stackTrace": [
+          "DebugMcpRepro.dll!DebugMcpRepro.Scenarios.Synchronous() Line 12:12",
+          "DebugMcpRepro.dll!DebugMcpRepro.Program.Main(string[] args) Line 20:20",
+          "[External Code]:?"
+        ],
+        "breakpoints": [
+          "Scenarios.cs:12"
+        ],
+        "fileFullPath": "d:\\code\\github-com\\hahnfk\\debugmcp-repro\\Scenarios.cs",
+        "fileName": "Scenarios.cs",
+        "currentLine": 12,
+        "currentLineContent": "var result = localNumber + appendResult.Value; // BREAK A",
+        "nextLines": [
+          "return result;",
+          "}",
+          "public static async Task<int> CompletedAwaitAsync()"
+        ],
+        "frameId": 1000,
+        "threadId": 35844,
+        "frameName": "DebugMcpRepro.dll!DebugMcpRepro.Scenarios.Synchronous() Line 12"
+      }
+    },
+    "snapshotsAfterSelection": 2,
+    "initialAutomaticExpressions": [
+      {
+        "observed": "Expression: 1+1\nResult: 2 (int)",
+        "expression": "1+1"
+      },
+      {
+        "observed": "Expression: localNumber\nResult: 41 (int)",
+        "expression": "localNumber"
+      },
+      {
+        "observed": "Expression: args.Length\nResult: error CS0103: Der Name \"args\" ist im aktuellen Kontext nicht vorhanden.",
+        "expression": "args.Length"
+      },
+      {
+        "observed": "Expression: scenario\nResult: error CS0103: Der Name \"scenario\" ist im aktuellen Kontext nicht vorhanden.",
+        "expression": "scenario"
+      },
+      {
+        "observed": "Expression: typeof(DebugMcpRepro.Scenarios).Assembly.Location\nResult: \"D:\\\\code\\\\github-com\\\\hahnfk\\\\debugmcp-repro\\\\bin\\\\Debug\\\\net10.0\\\\DebugMcpRepro.dll\" (string)",
+        "expression": "typeof(DebugMcpRepro.Scenarios).Assembly.Location"
+      }
+    ],
+    "statusAfterMcpExpressions": {
+      "status": "paused",
+      "paused": true,
+      "sessionActive": true,
+      "configurationName": "Repro A - synchronous",
+      "breakpoints": [
+        "Scenarios.cs:12"
+      ],
+      "requestedWaitSeconds": 0,
+      "effectiveWaitSeconds": 0,
+      "state": {
+        "sessionActive": true,
+        "paused": true,
+        "configurationName": "Repro A - synchronous",
+        "stackTrace": [
+          "DebugMcpRepro.dll!DebugMcpRepro.Scenarios.Synchronous() Line 12:12",
+          "DebugMcpRepro.dll!DebugMcpRepro.Program.Main(string[] args) Line 20:20",
+          "[External Code]:?"
+        ],
+        "breakpoints": [
+          "Scenarios.cs:12"
+        ],
+        "fileFullPath": "d:\\code\\github-com\\hahnfk\\debugmcp-repro\\Scenarios.cs",
+        "fileName": "Scenarios.cs",
+        "currentLine": 12,
+        "currentLineContent": "var result = localNumber + appendResult.Value; // BREAK A",
+        "nextLines": [
+          "return result;",
+          "}",
+          "public static async Task<int> CompletedAwaitAsync()"
+        ],
+        "frameId": 1001,
+        "threadId": 35844,
+        "frameName": "DebugMcpRepro.dll!DebugMcpRepro.Scenarios.Synchronous() Line 12"
+      }
+    },
+    "configuration": "Repro A - synchronous",
+    "case": "A_DEEP",
+    "successfulRunCount": 1,
+    "threadId": 35844,
+    "cleanup": {
+      "debugStatus": "no-session",
+      "deadlineApplied": false,
+      "continuedNormally": true,
+      "ownMcpConnectionCloseHttpStatus": 200,
+      "pid": 13336,
+      "breakpoints": "No breakpoints currently set",
+      "ownProcessPresent": false
+    },
+    "mcpAfterManual": [
+      {
+        "observed": "Expression: 1+1\nResult: 2 (int)",
+        "expression": "1+1"
+      },
+      {
+        "observed": "Expression: args.Length\nResult: 1 (int)",
+        "expression": "args.Length"
+      },
+      {
+        "observed": "Expression: localNumber\nResult: error CS0103: Der Name \"localNumber\" ist im aktuellen Kontext nicht vorhanden.",
+        "expression": "localNumber"
+      },
+      {
+        "observed": "Expression: scenario\nResult: \"sync\" (string)",
+        "expression": "scenario"
+      }
+    ],
+    "userScreenshot": "codex-clipboard-75cd3e98-1045-4628-a085-04eb49ed1e5f.png",
+    "statusBeforeMcpExpressions": {
+      "status": "paused",
+      "paused": true,
+      "sessionActive": true,
+      "configurationName": "Repro A - synchronous",
+      "breakpoints": [
+        "Scenarios.cs:12"
+      ],
+      "requestedWaitSeconds": 0,
+      "effectiveWaitSeconds": 0,
+      "state": {
+        "sessionActive": true,
+        "paused": true,
+        "configurationName": "Repro A - synchronous",
+        "stackTrace": [
+          "DebugMcpRepro.dll!DebugMcpRepro.Scenarios.Synchronous() Line 12:12",
+          "DebugMcpRepro.dll!DebugMcpRepro.Program.Main(string[] args) Line 20:20",
+          "[External Code]:?"
+        ],
+        "breakpoints": [
+          "Scenarios.cs:12"
+        ],
+        "fileFullPath": "d:\\code\\github-com\\hahnfk\\debugmcp-repro\\Scenarios.cs",
+        "fileName": "Scenarios.cs",
+        "currentLine": 12,
+        "currentLineContent": "var result = localNumber + appendResult.Value; // BREAK A",
+        "nextLines": [
+          "return result;",
+          "}",
+          "public static async Task<int> CompletedAwaitAsync()"
+        ],
+        "frameId": 1001,
+        "threadId": 35844,
+        "frameName": "DebugMcpRepro.dll!DebugMcpRepro.Scenarios.Synchronous() Line 12"
+      }
+    },
+    "observation": "Selected frameId changed from 1000 to 1001, but frameName/file/currentLine still describe top frame Synchronous/Scenarios.cs/12; expression evaluation correctly uses Main scope.",
+    "mcpLocalNames": "Variables in scope (names only - no values were read):\n=====================================================\n\nLocals:\n  args (string[])\n  scenario (string)\n\nUse get_variables_values with the names you need, e.g. { \"variableNames\": [\"user\"] }.\n",
+    "manualSelectedFrame": {
+      "selectedLine": 20,
+      "selectedFrame": "Program.Main(string[] args)",
+      "selectedFile": "Program.cs",
+      "latestIndividualResults": [
+        {
+          "expression": "1+1",
+          "observed": "2"
+        },
+        {
+          "expression": "args.Length",
+          "observed": "1"
+        },
+        {
+          "expression": "localNumber",
+          "observed": "CS0103: localNumber not in the current context"
+        }
+      ]
+    }
+  },
+  "identifierSemantics": "Recorded PIDs, thread IDs, and frame IDs are local observations from their specific runs. They are allocated dynamically and can change between runs and machines. They are not reproduction constants."
+}

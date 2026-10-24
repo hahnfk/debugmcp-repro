@@ -1,0 +1,96 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Repro A - synchronous",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "repro: build Debug",
+      "program": "${workspaceFolder}/bin/Debug/net10.0/DebugMcpRepro.dll",
+      "args": ["sync"],
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "stopAtEntry": false,
+      "justMyCode": true,
+      "requireExactSource": true
+    },
+    {
+      "name": "Repro B - completed await",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "repro: build Debug",
+      "program": "${workspaceFolder}/bin/Debug/net10.0/DebugMcpRepro.dll",
+      "args": ["completed-await"],
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "stopAtEntry": false,
+      "justMyCode": true,
+      "requireExactSource": true
+    },
+    {
+      "name": "Repro C - suspended await",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "repro: build Debug",
+      "program": "${workspaceFolder}/bin/Debug/net10.0/DebugMcpRepro.dll",
+      "args": ["suspended-await"],
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "stopAtEntry": false,
+      "justMyCode": true,
+      "requireExactSource": true
+    },
+    {
+      "name": "Repro D - assigned after await (failure true)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "repro: build Debug",
+      "program": "${workspaceFolder}/bin/Debug/net10.0/DebugMcpRepro.dll",
+      "args": ["assigned-after-await"],
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "stopAtEntry": false,
+      "justMyCode": true,
+      "requireExactSource": true
+    },
+    {
+      "name": "Repro D - assigned after await (failure false)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "repro: build Debug",
+      "program": "${workspaceFolder}/bin/Debug/net10.0/DebugMcpRepro.dll",
+      "args": ["assigned-after-await-success"],
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "stopAtEntry": false,
+      "justMyCode": true,
+      "requireExactSource": true
+    },
+    {
+      "name": "Repro E - projection return",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "repro: build Debug",
+      "program": "${workspaceFolder}/bin/Debug/net10.0/DebugMcpRepro.dll",
+      "args": ["projection"],
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "stopAtEntry": false,
+      "justMyCode": true,
+      "requireExactSource": true
+    },
+    {
+      "name": "Repro F - out of scope (negative control)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "repro: build Debug",
+      "program": "${workspaceFolder}/bin/Debug/net10.0/DebugMcpRepro.dll",
+      "args": ["out-of-scope"],
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "stopAtEntry": false,
+      "justMyCode": true,
+      "requireExactSource": true
+    }
+  ]
+}
