@@ -582,16 +582,6 @@
       }
     ],
     "processId": 27996,
-    "excludedAttempts": [
-      {
-        "processId": 51900,
-        "outcome": "120-second manual window expired; watchdog stopped only own process and removed own breakpoint; no complete console comparison"
-      },
-      {
-        "processId": 27996,
-        "outcome": "Prior multiline console submission produced CS0726 invalid format specifier; excluded from individual-expression trials"
-      }
-    ],
     "channel": "VS Code Debug Console, manually entered expressions",
     "actualLine": 12,
     "cleanup": "continued normally before 300-second deadline; no-session, PID absent, owned breakpoint removed",
@@ -1023,12 +1013,6 @@
       "pid": 13336,
       "breakpoints": "No breakpoints currently set",
       "ownProcessPresent": false
-    },
-    "excludedAttempt": {
-      "deadlineApplied": true,
-      "deadlineSeconds": 300,
-      "pid": 43708,
-      "classification": "Incomplete assisted attempt; excluded from caller reproduction result"
     },
     "mcpAfterManual": [
       {

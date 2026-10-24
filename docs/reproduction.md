@@ -136,8 +136,6 @@ continuation within the same session. Do not change build/options between cells.
    Enter those same expressions separately in **Debug Console**. Record the user
    action as manual. Repeat DebugMCP expression calls after that selection.
    Submit **one expression with Enter**, wait for its result, then enter the next.
-   Pasting all lines as a single multiline evaluation is a different input and
-   produced `CS0726` in the assisted A trial; it does not test the four cells.
 6. If automatic selection needs a fresh control, repeat the launch once without
    a manual selection. A preceding manual console comparison may already change
    selection, so do the automatic MCP cell first or use a separate launch.
@@ -168,34 +166,77 @@ direct/manual cells for line 60 or the separately stepped route to line 61.
 ## Selected caller and stopped-frame status (A_DEEP)
 
 This is a deliberate frame change, separate from the same-frame comparisons
-above. Use the verified independent connection and a new, bounded
-`Repro A - synchronous` launch with only the owned `Scenarios.cs:12` breakpoint.
+above. Complete the connection safety gate and agree on a 300-second bounded
+pause before starting. Replace `<REPRO_ROOT>` below with the verified absolute
+checkout path. Frame, thread, and process IDs are assigned per run; do not use
+the example observations as selectors or reproduction constants.
 
-1. At the physical stop in `Scenarios.Synchronous`, record `get_debug_status`,
-   including frame ID, thread, name, full source path, and line. Evaluate `1+1`,
-   `localNumber`, `args.Length`, and `scenario` separately. Expected: 2, 41,
-   CS0103, CS0103. `args` and `scenario` are not locals of this method.
-2. Ask the user to select `Program.Main(string[] args)` at `Program.cs:20` under
-   **Run and Debug → CALL STACK** in this same paused Repro session. Do not step
-   or resume. The user should enter `1+1`, `args.Length`, and `localNumber` as
-   three separate Console requests. Expected: 2, 1, CS0103. Record the selected
-   frame and latest results; exclude unrelated earlier Console history.
-3. Before further MCP evaluation, record status again. Then evaluate those three
-   expressions plus `scenario` through MCP. In the selected Main context expect
-   2, 1, CS0103, and `"sync"`. Local-name/value tools should identify `args` and
-   `scenario`, not `localNumber`. Record another status after the evaluations.
-4. Compare the actual frame IDs within this session; do not assume specific
-   numbers across launches. Record whether name/source/line tracks the selected
-   frame or still describes the top frame. Keep the same PID/thread and physical
-   pause throughout this comparison, then clean up only the owned resources.
+### Reproduction steps
 
-The successful recorded trial changed the reported frame ID from 1000 to 1001
-after Main selection, while status still named `Synchronous`, `Scenarios.cs:12`.
-MCP expression scope correctly followed Main. This confirms mixed selected-frame
-and stopped-frame metadata. The physical stop remains at line 12: do not report
-that execution moved to `Main` line 20 or that the stop line alone is incorrect.
-Expected caller-scope CS0103 errors are distinct from an incorrect evaluation
-context, and `1+1=2` alone cannot determine which frame is in use.
+1. Restore and build the sample using the README commands. In its separate VS
+   Code window, confirm the named profile `Repro A - synchronous` exists.
+2. Use `add_breakpoint` for `<REPRO_ROOT>/Scenarios.cs`, line 12 (`BREAK A`).
+   Call `start_debugging` on the independent MCP connection with these arguments:
+
+   ```json
+   {
+     "fileFullPath": "<REPRO_ROOT>/Scenarios.cs",
+     "workingDirectory": "<REPRO_ROOT>",
+     "configurationName": "Repro A - synchronous"
+   }
+   ```
+
+3. At the physical stop in `Scenarios.Synchronous`, call `get_debug_status` with
+   `waitForPauseSeconds: 0`. Record frame ID, thread, name, full source path, and
+   line. Before any manual frame selection, use `evaluate_expression` for `1+1`,
+   `localNumber`, `args.Length`, and `scenario`, one expression per call.
+4. In the same paused Repro session, select `Program.Main(string[] args)` at
+   `Program.cs:20` under **Run and Debug → CALL STACK**. Do not step or resume.
+   In **Debug Console**, submit `1+1`, `args.Length`, and `localNumber`
+   individually with Enter, waiting for each result before entering the next.
+5. Call `get_debug_status` again **before** further MCP expression calls. Through
+   MCP, evaluate `1+1`, `args.Length`, `localNumber`, and `scenario` individually.
+   Optionally inspect only the local names and selected values `args`, `scenario`,
+   and `localNumber`. Capture another status immediately afterwards.
+6. Compare frame identity and name/source across these status snapshots while
+   keeping the same session, thread, process, and physical pause. Then continue
+   only the owned session, remove its breakpoint, and verify `no-session` plus
+   an empty owned breakpoint list.
+
+### Expected result
+
+Selecting Main changes the inspection context, while physical execution remains
+paused in `Scenarios.Synchronous` at line 12. The status should describe the
+selected frame consistently or explicitly distinguish the selected evaluation
+frame from the stopped frame. If a frame ID denotes Main, its associated selected
+name/source should identify `Program.Main`, `Program.cs:20`. The physical stop
+at `Scenarios.cs:12` can be reported separately.
+
+| Expression | Automatic MCP in Synchronous | Direct Console in selected Main | MCP after Main selection |
+| --- | --- | --- | --- |
+| `1+1` | 2 | 2 | 2 |
+| `localNumber` | 41 | CS0103, outside Main scope | CS0103, outside Main scope |
+| `args.Length` | CS0103, outside Synchronous scope | 1 | 1 |
+| `scenario` | CS0103, outside Synchronous scope | Not requested | `"sync"` |
+
+Local-name/value inspection in Main should identify `args` and `scenario`, with
+`localNumber` absent. The constant `1+1` alone cannot distinguish the two frames.
+
+### Actual result
+
+The expression and local-variable results matched that scope table. However,
+after Main selection the reported frame ID changed from 1000 to 1001 while both
+status snapshots still named `Scenarios.Synchronous` at `Scenarios.cs:12`.
+Those IDs are observations from the recorded local run. MCP correctly evaluated
+the selected Main context; the response mixed its selected frame ID with the
+top frame's name/source without distinguishing their meanings.
+
+The physical stop remained at line 12. This result does not show execution moving
+to Main line 20, a wrong physical stop line, or an expression-evaluation failure.
+It reproduces the metadata limitation reported in
+[microsoft/DebugMCP#179](https://github.com/microsoft/DebugMCP/issues/179).
+One completed caller-selection run supplied the two post-selection snapshots;
+other languages and independent fresh-launch repetitions remain untested.
 
 ## Conditional breakpoints (only after unconditional expression checks)
 
@@ -227,10 +268,9 @@ in the Repro window, session `Repro A - synchronous`, select
 `Scenarios.Synchronous` under **CALL STACK**, evaluate `1+1` in **Debug Console**,
 and report only `2` or the short error. Never request a full console dump.
 
-Agree on a bounded window for a manually assisted pause **before** starting it
-(initially two minutes in this investigation; a subsequent assisted retry uses a
-five-minute watchdog). If no complete answer arrives, end only the positively identified Repro
-session using its own window/connection; do not leave it paused indefinitely.
+Agree on a bounded 300-second window for a manually assisted pause **before**
+starting it. If the deadline is reached, end only the positively identified
+Repro session using its own window/connection; do not leave it paused indefinitely.
 Do not start a manual trial without a verified cleanup path. Automated sample
 trials were resumed and ended; no process is intentionally left paused awaiting
 an unannounced manual action.

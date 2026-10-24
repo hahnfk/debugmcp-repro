@@ -93,8 +93,8 @@ identities; re-run verification after editing sources):
   In a follow-up, the user explicitly confirmed the requested checkout folder
   was open and supplied a screenshot showing the Repro tree and working branch.
 - Repro workspace file contains `debugmcp.serverPort: 3002`.
-- Global DebugMCP port was **3001**, binding **127.0.0.1 and ::1**. The historical
-  accidental global port 3002 setting was **not present** when inspected.
+- Global DebugMCP port was **3001**, binding **127.0.0.1 and ::1**; these settings
+  were preserved.
 - Port 3002 was listening on **127.0.0.1 and ::1**, owned by PID **26376**.
   This is the extension-host listener PID, **not a Repro debuggee PID**. A
   listener alone does not establish which workspace the router controls or the
@@ -105,8 +105,7 @@ identities; re-run verification after editing sources):
 - The user confirmed the Repro Output-channel line:
   `2026-10-24 10:02:37.572 [info] DebugMCP router running at: http://localhost:3002`.
   The public MCP endpoint `http://localhost:3002/mcp` was subsequently verified by
-  a separate read-only handshake. The screenshot's older port-3001 ownership
-  messages precede this successful port-3002 activation; they do not contradict it.
+  a separate read-only handshake.
 - The reviewable additive configuration is in `docs/debugmcp-repro.config.toml`.
   The separate connection was also prepared in the new ignored project-local
   `.codex/config.toml`. A read-only `codex mcp get debugmcp_repro --json` under the
@@ -230,54 +229,30 @@ preceded the evaluations.
 | Local discovery / selected retrieval | Names and explicitly requested values succeeded |
 | Normal completion | `continue_execution` ended the run; PID 25320 no longer existed; `get_debug_status` confirmed `no-session` |
 | Outcome for automatic frame expressions | Passed; historical evaluation difficulty not reproduced in A |
-| Direct Debug Console / manual frame cells | All four individual expressions passed; user-selected frame and direct results recorded in the successful assisted retry below |
+| Direct Debug Console / manual frame cells | All four individual expressions passed; user-selected frame and direct results recorded in the comparison below |
 
 This launch verifies the actual source position and loaded module for A, in
 addition to the earlier disk PDB checks. It does not establish results for async
 cases or a direct-vs-MCP comparison.
 
-### A: bounded manual-assistance attempts
+### A: direct/manual comparison
 
-The user confirmed readiness before the assisted comparisons. The first assisted
-launch, PID 51900 at A line 12/frame 1000, again returned 2 for the automatic MCP
-`1+1` control. Its independently owned 120-second watchdog ended exactly this
-process when no complete direct expression record arrived; its own breakpoint
-was removed. The incomplete reply was not promoted to a complete comparison.
+The comparison used `Repro A - synchronous`, PID 27996, paused at
+`Scenarios.cs:12` in the `Synchronous` frame, with a 300-second bounded window.
+Before manual selection, MCP returned `1+1=2`, `localNumber=41`, the sample object,
+and `appendResult.IsFailure=true`.
 
-A subsequent assisted retry launched A as PID 27996 with a 300-second watchdog.
-The user's screenshot confirms the Repro halt at line 12, the Variables view
-with `localNumber=41` and `appendResult` properties true/7, the exact Repro DLL
-path, and a symbol-loaded indication. **This is direct UI evidence of variables
-and symbols, not Debug Console expression evaluation:** the initial visible
-console contains launch messages but no entered-expression results.
+The user selected `Synchronous` under **CALL STACK** and entered the four
+expressions individually in **Debug Console**. The screenshot records 2, 41,
+`{DebugMcpRepro.AppendResult}` with expanded `IsFailure=true`, `Value=7`, and true
+for `appendResult.IsFailure`. The sample DLL had symbols loaded. MCP repeated
+the same four expressions after the manual selection and returned identical
+values. **All three A columns pass with no automatic-vs-manual difference.**
 
-A later screenshot shows the intended `Synchronous` frame selected at line 12.
-The four requested expressions were submitted as **one multiline evaluation**,
-which failed with `CS0726` for the trailing text interpreted as an invalid format
-specifier. This is an invalid combined console submission, not four individual
-expression results, not a `CS0103` scope failure, and not a DebugMCP call failure.
-
-Immediately after that explicit frame selection, the independent MCP client
-evaluated each expression separately and observed `1+1=2`, `localNumber=41`,
-the complex `DebugMcpRepro.AppendResult` object, and `appendResult.IsFailure=true`.
-The same four values had already succeeded in that same trial before manual
-selection. Thus **MCP after manual selection passed without changing the observed
-values**.
-
-The final user screenshot then records all four expressions submitted
-individually: `1+1` returned 2; `localNumber` returned 41; `appendResult` displayed
-`{DebugMcpRepro.AppendResult}` with expanded `IsFailure=true`, `Value=7`; and
-`appendResult.IsFailure` returned true. The intended `Synchronous` frame remained
-selected at line 12, with symbols loaded. These direct actions were performed
-manually by the user. MCP repeated the same four individual calls after receipt
-of that screenshot and returned the same values again.
-
-The retry completed through `continue_execution` before its 300-second deadline.
-`get_debug_status` confirmed `no-session`, PID 27996 was no longer present, and
-the owned breakpoint at line 12 was removed with an empty final breakpoint list.
-The watchdog did not need to abort this successful trial. **All three A columns
-pass with no automatic-vs-manual difference.** The prior invalid multiline
-submission remains a separate input-error observation.
+The run completed through `continue_execution` before its deadline.
+`get_debug_status` confirmed `no-session`, PID 27996 was absent, and the owned
+line-12 breakpoint was removed with an empty final breakpoint list. The watchdog
+did not need to abort the run.
 
 ### B–F: automatic MCP trials
 
@@ -384,20 +359,16 @@ deadline-triggered abort.
 
 ### A_DEEP: selected caller scope versus reported status
 
-This targeted follow-up tested the previously static metadata concern. An initial
-attempt, PID 43708, reached its 300-second manual deadline without a complete
-direct comparison and was cleaned up; it is excluded from the positive runtime
-evidence. The successful retry used `Repro A - synchronous`, PID 13336, thread
-35844, and a new 300-second bounded pause. No stepping or continuation occurred
-between the comparison columns.
+This targeted comparison tested the previously static metadata concern using
+`Repro A - synchronous`, PID 13336, thread 35844, and a 300-second bounded pause.
+No stepping or continuation occurred between the comparison columns.
 
 The physical breakpoint stop was requested and observed at `Scenarios.cs:12`,
 `DebugMcpRepro.Scenarios.Synchronous()`. Before manual selection, status reported
 frame 1000. The sample's actual loaded module matched the checked Repro DLL.
 The user then explicitly selected `Program.Main(string[] args)` at `Program.cs:20`
-under **CALL STACK**. Only the latest three separately entered Console commands
-in the supplied screenshot are attributed to that selection; older Console
-history is excluded.
+under **CALL STACK** and evaluated `1+1`, `args.Length`, and `localNumber` as three
+separate Console requests.
 
 | Expression | Automatic MCP in Synchronous | Direct Console in selected Main | MCP after selecting Main |
 | --- | --- | --- | --- |
@@ -429,13 +400,17 @@ physical stop, but the response does not separate those stop fields from the
 selected-frame identity. Consequently a legitimate caller-scope CS0103 can appear
 inconsistent if a consumer treats all these status fields as one frame.
 
-This mechanism is now reproduced in the synthetic sample. Its contribution to
-the historical `appendResult` report is still unproven because that original
-selection/stop context was not captured. A separate unpublished
-[status-metadata issue draft](issues/selected-frame-status-metadata.md) records
-the precise observation rather than claiming incorrect expression evaluation.
+This mechanism is reproduced in one completed caller-selection comparison,
+with two status snapshots after selection. No independent fresh-launch repeat
+or other-language comparison has been performed. Its contribution to the
+historical `appendResult` report remains unproven because that original
+selection/stop context was not captured.
 
-The successful retry continued normally before its deadline. Final status was
+The published [microsoft/DebugMCP#179](https://github.com/microsoft/DebugMCP/issues/179)
+and [local report](issues/selected-frame-status-metadata.md) describe the metadata
+observation rather than claiming incorrect expression evaluation.
+
+The run continued normally before its deadline. Final status was
 `no-session`, PID 13336 was absent, the owned line-12 point was removed, and the
 breakpoint list was empty. The watchdog helper and marker were removed without
 an abort. Closing only the independently owned MCP transport returned HTTP 200.

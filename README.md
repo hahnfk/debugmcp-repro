@@ -16,11 +16,12 @@ name/source/line. Execution remained paused in `Scenarios.Synchronous`. The
 historical unexpected expression failure remains unreproduced. The D condition
 controls and separate lifecycle/path-casing observations are detailed in the findings.
 
-Separate unpublished issue drafts describe the
-[mixed selected/stopped-frame status](docs/issues/selected-frame-status-metadata.md)
-and [start/termination inconsistency](docs/issues/start-debugging-termination.md).
-[Curated trial evidence](docs/evidence/2026-10-24.json) is included. These drafts
-record the investigation before the separately authorized publication step.
+The mixed status metadata is reported in
+[microsoft/DebugMCP#179](https://github.com/microsoft/DebugMCP/issues/179), with a
+[local report](docs/issues/selected-frame-status-metadata.md). A separate,
+unsubmitted [draft](docs/issues/start-debugging-termination.md) describes the
+start/termination inconsistency. [Curated trial evidence](docs/evidence/2026-10-24.json)
+is included.
 
 ## Prerequisites and quick start
 
