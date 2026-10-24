@@ -13,15 +13,16 @@ frames. This report asks for that distinction to be made explicit.
 - Windows x64; VS Code 1.143.1.
 - DebugMCP extension 2.4.3; C# extension 2.160.4; C# Dev Kit 3.40.215.
 - .NET SDK 10.0.402; runtime 10.0.13; Debug build with portable PDBs.
-- Reproduction project: [hahnfk/debugmcp-repro](https://github.com/hahnfk/debugmcp-repro/tree/codex/frame-evaluation-repro).
+- Reproduction project: [hahnfk/debugmcp-repro](https://github.com/hahnfk/debugmcp-repro/tree/dd3594066a5441b7b420a96656f211fd86328df6).
 
 ## Reproduction steps
 
 1. Clone and build the sample in a new folder:
 
    ```powershell
-   git clone --branch codex/frame-evaluation-repro https://github.com/hahnfk/debugmcp-repro.git
+   git clone https://github.com/hahnfk/debugmcp-repro.git
    cd debugmcp-repro
+   git checkout dd3594066a5441b7b420a96656f211fd86328df6
    dotnet restore DebugMcpRepro.csproj --configfile NuGet.Config
    dotnet build DebugMcpRepro.csproj --configuration Debug --no-restore
    ```

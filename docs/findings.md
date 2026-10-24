@@ -24,7 +24,7 @@ lifecycle anomaly, and breakpoint-removal path casing are documented independent
 | Checkout | `D:\code\github-com\hahnfk\debugmcp-repro` |
 | Origin | `https://github.com/hahnfk/debugmcp-repro.git` |
 | Starting commit | `e6ab3a968ae06d1f156f288003bd118cb00e72ad` |
-| Branch | `codex/frame-evaluation-repro` |
+| Investigation branch (historical) | `codex/frame-evaluation-repro` |
 | Initial folder | Only `.vscode/settings.json`; not a Git repository |
 | Remote content preserved | README opening text, MIT LICENSE, existing ignore rules |
 | Applicable repository instruction files | No AGENTS.md or additional project instructions in the cloned tree/checked ancestors |
