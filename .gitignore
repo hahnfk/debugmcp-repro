@@ -426,3 +426,7 @@ FodyWeavers.xsd
 
 # Official VS Code C# Dev Kit Extension exclusion
 #*.lscache
+
+# Repro-only local captures and client settings; curated evidence belongs in docs.
+.diagnostics/
+.codex/

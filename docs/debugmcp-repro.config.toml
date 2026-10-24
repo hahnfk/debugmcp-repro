@@ -1,0 +1,8 @@
+# Reviewable addition only: this file is NOT loaded automatically.
+# Merge only into the intended Codex client configuration, preserving all
+# existing server entries. A trusted project's .codex/config.toml can scope
+# this addition to this repository; otherwise an explicit user-approved
+# addition to the user configuration is required.
+# An endpoint or a server name does not prove which VS Code window is routed.
+[mcp_servers.debugmcp_repro]
+url = "http://localhost:3002/mcp"
