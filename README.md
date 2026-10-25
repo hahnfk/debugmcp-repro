@@ -101,7 +101,9 @@ These findings are reported as
 [Microsoft/DebugMCP#191](https://github.com/microsoft/DebugMCP/issues/191)
 (unmatched workspace routing) and
 [Microsoft/DebugMCP#192](https://github.com/microsoft/DebugMCP/issues/192)
-(second CLI launch readiness). Issue instructions and reproduction links use
+(second CLI launch readiness). The adapter-exit finding is tracked in
+[Microsoft/DebugMCP#193](https://github.com/microsoft/DebugMCP/issues/193).
+Issue instructions and reproduction links use
 this repository's `main` branch. Publish reproduction material through a merged
 pull request before creating an upstream issue; the tested Microsoft source
 commit remains recorded separately as the version baseline.

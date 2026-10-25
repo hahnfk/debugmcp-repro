@@ -1,5 +1,7 @@
 # Standalone CLI reports a paused session after its adapter exits during navigation
 
+Reported in [Microsoft/DebugMCP#193](https://github.com/microsoft/DebugMCP/issues/193).
+
 ## Summary
 
 When a standalone debug adapter exits while a step or continue request is

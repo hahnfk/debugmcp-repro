@@ -75,7 +75,8 @@ or a fixed implementation must not count as successful bug reproduction.
 The JSON output distinguishes expected and actual results.
 
 The [recorded baseline results](evidence/2026-10-25-review-reproductions.json)
-contain four central runs: each harness in regression and confirmation mode.
+contain four central runs: the routing and second-start harnesses were each
+executed in regression and confirmation mode.
 Both routing failure cases reproduced with all three controls passing. Both CLI
 recovery cases reproduced after explicit stop and normal completion; the first
 launches and fresh-executor control passed. All owned workers, adapter
@@ -126,7 +127,8 @@ reproduction constants.
   [upstream issue #191](https://github.com/microsoft/DebugMCP/issues/191)
 - [Second CLI launch readiness](issues/cli-second-start-readiness.md) —
   [upstream issue #192](https://github.com/microsoft/DebugMCP/issues/192)
-- [Adapter exit during navigation](issues/cli-adapter-exit-navigation.md)
+- [Adapter exit during navigation](issues/cli-adapter-exit-navigation.md) —
+  [upstream issue #193](https://github.com/microsoft/DebugMCP/issues/193)
 
 The reports link to pinned upstream code. Their fixture links are relative to
 this reproduction repository. Public GitHub issue versions link to this
