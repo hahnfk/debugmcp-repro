@@ -15,3 +15,7 @@
   Approval for earlier issues is not approval for every later finding.
 - Temporary German reading copies belong under the ignored `.diagnostics/`
   directory. Keep the English reports as the publication sources.
+- Disclose assistance from OpenAI Codex in upstream issue reports. For desktop
+  investigations, record the verified desktop app version, build and verification
+  date. Distinguish authoring assistance from the reproduction's execution
+  environment, and do not infer an unrecorded historical client version.

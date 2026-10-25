@@ -170,3 +170,15 @@ pruning, or claim a live reproduction of suspend/resume behavior.
   heartbeat behavior described here.
 - [Issue #165](https://github.com/microsoft/DebugMCP/issues/165) concerns per-workspace
   ports and multi-window reliability; it does not identify this recovery trigger.
+
+## Investigation tooling
+
+This investigation and its reproduction work were carried out with assistance
+from OpenAI Codex.
+
+- Codex desktop app version: `26.1021.31345` (build `21828`).
+- Version verified on `2026-10-25`, when this tooling disclosure was added.
+
+The automated reproduction runs directly as an isolated Node.js harness against
+the DebugMCP implementation. Codex assisted the investigation, harness authoring
+and report preparation.

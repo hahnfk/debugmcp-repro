@@ -156,3 +156,15 @@ the normal regression oracle; `sourceDirty` remains visible in its output.
 synchronization between sessions by resetting adapter initialization. This case
 concerns an in-flight navigation request restoring stale execution state after
 an actual adapter process exit.
+
+## Investigation tooling
+
+This investigation and its reproduction work were carried out with assistance
+from OpenAI Codex.
+
+- Codex desktop app version: `26.1021.31345` (build `21828`).
+- Version verified on `2026-10-25`, when this tooling disclosure was added.
+
+The automated reproduction runs directly as an isolated Node.js harness against
+the DebugMCP implementation. Codex assisted the investigation, harness authoring
+and report preparation.

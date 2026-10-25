@@ -133,3 +133,15 @@ the normal regression oracle when `--expect-current-bug` is omitted.
   mismatch is the readiness result selected for the second launch.
 - This draft reports source behavior at the pinned commit. It makes no claim
   about which npm package versions have been published or installed.
+
+## Investigation tooling
+
+This investigation and its reproduction work were carried out with assistance
+from OpenAI Codex.
+
+- Codex desktop app version: `26.1021.31345` (build `21828`).
+- Version verified on `2026-10-25`, when this tooling disclosure was added.
+
+The automated reproduction runs directly as an isolated Node.js harness against
+the DebugMCP implementation. Codex assisted the investigation, harness authoring
+and report preparation.

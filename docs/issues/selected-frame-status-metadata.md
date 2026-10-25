@@ -13,16 +13,15 @@ frames. This report asks for that distinction to be made explicit.
 - Windows x64; VS Code 1.143.1.
 - DebugMCP extension 2.4.3; C# extension 2.160.4; C# Dev Kit 3.40.215.
 - .NET SDK 10.0.402; runtime 10.0.13; Debug build with portable PDBs.
-- Reproduction project: [hahnfk/debugmcp-repro](https://github.com/hahnfk/debugmcp-repro/tree/dd3594066a5441b7b420a96656f211fd86328df6).
+- Reproduction project: [hahnfk/debugmcp-repro](https://github.com/hahnfk/debugmcp-repro/tree/main).
 
 ## Reproduction steps
 
 1. Clone and build the sample in a new folder:
 
    ```powershell
-   git clone https://github.com/hahnfk/debugmcp-repro.git
+   git clone --branch main https://github.com/hahnfk/debugmcp-repro.git
    cd debugmcp-repro
-   git checkout dd3594066a5441b7b420a96656f211fd86328df6
    dotnet restore DebugMcpRepro.csproj --configfile NuGet.Config
    dotnet build DebugMcpRepro.csproj --configuration Debug --no-restore
    ```
@@ -119,3 +118,14 @@ source positions and before/after status snapshots.
 [Issue #82](https://github.com/microsoft/DebugMCP/issues/82) concerns stale source
 positions after stepping. This case changes the selected caller without any
 step or execution transition.
+
+## Investigation tooling
+
+This investigation and its reproduction work were carried out with assistance
+from OpenAI Codex.
+
+- Codex desktop app version: `26.1021.31345` (build `21828`).
+- Version verified on `2026-10-25`, when this tooling disclosure was added.
+
+The desktop app version used during the original 2026-10-24 investigation was
+not recorded; the version above identifies the environment at disclosure time.
