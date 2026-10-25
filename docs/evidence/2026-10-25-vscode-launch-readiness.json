@@ -1,0 +1,751 @@
+{
+  "recordedUtc": "2026-10-25T19:30:59.1114709Z",
+  "upstreamRepository": "https://github.com/microsoft/DebugMCP",
+  "upstreamCommit": "d0b4a334a6a3d8d600c5aa75ec60d9de272af3c4",
+  "upstreamVersion": "2.4.4",
+  "sourceDirty": false,
+  "environment": {
+    "platform": "win32",
+    "architecture": "x64",
+    "node": "v24.22.1"
+  },
+  "publicationStatusAtRecording": "Local draft; no upstream issue has been created.",
+  "investigationTooling": {
+    "product": "OpenAI Codex desktop",
+    "version": "26.1021.31345",
+    "build": "21828",
+    "verifiedDate": "2026-10-25",
+    "role": "Investigation, harness authoring and report preparation. The reproduction runs directly under Node.js."
+  },
+  "validationScope": "Actual compiled DebuggingHandler and DebuggingExecutor with an event-driven VS Code host API double, deterministic configuration provider and error-counting logger sink. Real Node timers and an event-loop completion checkpoint are used. No production methods or private fields are replaced.",
+  "limitations": [
+    "No real VS Code extension host, MCP transport, language adapter or debuggee was run. Host events are controlled fixture inputs, not a captured editor event sequence.",
+    "The optional DebugSessionTracker is omitted; the failing termination condition directly tests the selected global session and does not consult the tracker.",
+    "The configured named-launch path is used without testName. The separate Testing API runComplete mitigation is outside this failure path.",
+    "The reproduction does not establish the frequency or ordering of these events in a particular installed VS Code version.",
+    "Module hashes provide traceability, not independent proof of source-to-output correspondence."
+  ],
+  "identityPolicy": "Locally generated session IDs are normalized to A (the new named launch) and P (the pre-existing independent session). IDs are observations, not reproduction constants. Trace identity or selection fields are omitted when the source trace did not record them; an explicit null selection means that no session was selected.",
+  "timerResourcePolicy": "Each per-scenario Timeout resource count includes the owned five-second harness deadline. The production 100ms frame probe is allowed to drain before cleanup counts are compared.",
+  "expected": {
+    "ownLaunchReadiness": "terminated",
+    "ownHandlerCompletedAtFirstPostTerminationEventLoopCheckpoint": true,
+    "independentSelectionPreserved": "P",
+    "unrelatedTerminationMustNotCompleteOwnLaunch": true
+  },
+  "runs": [
+    {
+      "mode": "regression",
+      "exitCode": 1,
+      "expectedExitCodeOnReviewedBaseline": 1,
+      "modeOutcomePassed": false,
+      "durationMs": 1530,
+      "readinessTimeoutMs": 200,
+      "controls": {
+        "count": 5,
+        "allFivePassed": true,
+        "unrelatedTerminationDidNotCompleteOwnLaunch": true
+      },
+      "scenarios": [
+        {
+          "kind": "unrelated-stays-active",
+          "scope": "production start handler and executor",
+          "expected": "terminated",
+          "actual": "timeout",
+          "healthyContractPassed": false,
+          "elapsedMs": 214,
+          "startCalls": 1,
+          "ownSessionTerminated": true,
+          "activeSelectionAfter": "P",
+          "globalStatusAfter": {
+            "status": "running",
+            "sessionActive": true,
+            "paused": false,
+            "session": "P"
+          },
+          "eventTrace": [
+            {
+              "event": "fixture-begin",
+              "session": "P",
+              "activeSelection": "P",
+              "elapsedMs": 0
+            },
+            {
+              "event": "own-started",
+              "session": "A",
+              "activeSelection": "A",
+              "elapsedMs": 1
+            },
+            {
+              "event": "own-terminated",
+              "session": "A",
+              "activeSelection": "P",
+              "elapsedMs": 30
+            },
+            {
+              "event": "own-termination-checkpoint",
+              "session": "A",
+              "activeSelection": "P",
+              "elapsedMs": 30
+            },
+            {
+              "event": "operation-settled",
+              "elapsedMs": 214
+            }
+          ],
+          "cleanup": {
+            "completed": true,
+            "subscriptionsRemaining": 0,
+            "hostTimersRemaining": 0,
+            "hostImmediatesRemaining": 0,
+            "timeoutResourcesBefore": 1,
+            "timeoutResourcesAfterQuiescence": 1,
+            "loggerErrorCount": 0
+          },
+          "ownTerminationCompletedAtCheckpoint": false,
+          "startAndTerminationIdentityMatch": true,
+          "exactCurrentBugObserved": true,
+          "startResponsePrefix": "Debug session is running but did not stop or terminate within the timeout for:"
+        },
+        {
+          "kind": "terminated-alone",
+          "scope": "production start handler and executor",
+          "expected": "terminated",
+          "actual": "terminated",
+          "healthyContractPassed": true,
+          "elapsedMs": 33,
+          "startCalls": 1,
+          "ownSessionTerminated": true,
+          "activeSelectionAfter": null,
+          "globalStatusAfter": {
+            "status": "no-session",
+            "sessionActive": false,
+            "paused": false,
+            "session": null
+          },
+          "eventTrace": [
+            {
+              "event": "fixture-begin",
+              "activeSelection": null,
+              "elapsedMs": 0
+            },
+            {
+              "event": "own-started",
+              "session": "A",
+              "activeSelection": "A",
+              "elapsedMs": 0
+            },
+            {
+              "event": "own-terminated",
+              "session": "A",
+              "activeSelection": null,
+              "elapsedMs": 33
+            },
+            {
+              "event": "operation-settled",
+              "elapsedMs": 33
+            },
+            {
+              "event": "own-termination-checkpoint",
+              "session": "A",
+              "activeSelection": null,
+              "elapsedMs": 33
+            }
+          ],
+          "cleanup": {
+            "completed": true,
+            "subscriptionsRemaining": 0,
+            "hostTimersRemaining": 0,
+            "hostImmediatesRemaining": 0,
+            "timeoutResourcesBefore": 1,
+            "timeoutResourcesAfterQuiescence": 1,
+            "loggerErrorCount": 0
+          },
+          "ownTerminationCompletedAtCheckpoint": true,
+          "controlPassed": true
+        },
+        {
+          "kind": "frame-selected",
+          "scope": "production start handler and executor",
+          "expected": "stopped",
+          "actual": "stopped",
+          "healthyContractPassed": true,
+          "elapsedMs": 36,
+          "startCalls": 1,
+          "ownSessionTerminated": false,
+          "activeSelectionAfter": "A",
+          "globalStatusAfter": {
+            "status": "paused",
+            "sessionActive": true,
+            "paused": true,
+            "session": "A"
+          },
+          "eventTrace": [
+            {
+              "event": "fixture-begin",
+              "activeSelection": null,
+              "elapsedMs": 0
+            },
+            {
+              "event": "own-started",
+              "session": "A",
+              "activeSelection": "A",
+              "elapsedMs": 0
+            },
+            {
+              "event": "own-frame-selected",
+              "session": "A",
+              "activeSelection": "A",
+              "elapsedMs": 34
+            },
+            {
+              "event": "operation-settled",
+              "elapsedMs": 36
+            }
+          ],
+          "cleanup": {
+            "completed": true,
+            "subscriptionsRemaining": 0,
+            "hostTimersRemaining": 0,
+            "hostImmediatesRemaining": 0,
+            "timeoutResourcesBefore": 1,
+            "timeoutResourcesAfterQuiescence": 1,
+            "loggerErrorCount": 0
+          },
+          "controlPassed": true
+        },
+        {
+          "kind": "attach-running",
+          "scope": "production start handler and executor",
+          "expected": "attached",
+          "actual": "attached",
+          "healthyContractPassed": true,
+          "elapsedMs": 0,
+          "startCalls": 1,
+          "ownSessionTerminated": false,
+          "activeSelectionAfter": "A",
+          "globalStatusAfter": {
+            "status": "running",
+            "sessionActive": true,
+            "paused": false,
+            "session": "A"
+          },
+          "eventTrace": [
+            {
+              "event": "fixture-begin",
+              "activeSelection": null,
+              "elapsedMs": 0
+            },
+            {
+              "event": "own-started",
+              "session": "A",
+              "activeSelection": "A",
+              "elapsedMs": 0
+            },
+            {
+              "event": "operation-settled",
+              "elapsedMs": 0
+            }
+          ],
+          "cleanup": {
+            "completed": true,
+            "subscriptionsRemaining": 0,
+            "hostTimersRemaining": 0,
+            "hostImmediatesRemaining": 0,
+            "timeoutResourcesBefore": 1,
+            "timeoutResourcesAfterQuiescence": 1,
+            "loggerErrorCount": 0
+          },
+          "controlPassed": true
+        },
+        {
+          "kind": "no-launch",
+          "scope": "executor readiness method",
+          "expected": "no-session",
+          "actual": "no-session",
+          "healthyContractPassed": true,
+          "elapsedMs": 201,
+          "startCalls": 0,
+          "ownSessionTerminated": false,
+          "activeSelectionAfter": null,
+          "globalStatusAfter": {
+            "status": "no-session",
+            "sessionActive": false,
+            "paused": false,
+            "session": null
+          },
+          "eventTrace": [
+            {
+              "event": "fixture-begin",
+              "activeSelection": null,
+              "elapsedMs": 0
+            },
+            {
+              "event": "operation-settled",
+              "elapsedMs": 201
+            }
+          ],
+          "cleanup": {
+            "completed": true,
+            "subscriptionsRemaining": 0,
+            "hostTimersRemaining": 0,
+            "hostImmediatesRemaining": 0,
+            "timeoutResourcesBefore": 1,
+            "timeoutResourcesAfterQuiescence": 1,
+            "loggerErrorCount": 0
+          },
+          "controlPassed": true
+        },
+        {
+          "kind": "unrelated-termination",
+          "scope": "production start handler and executor",
+          "expected": "stopped",
+          "actual": "stopped",
+          "healthyContractPassed": true,
+          "elapsedMs": 31,
+          "startCalls": 1,
+          "ownSessionTerminated": false,
+          "activeSelectionAfter": "A",
+          "globalStatusAfter": {
+            "status": "paused",
+            "sessionActive": true,
+            "paused": true,
+            "session": "A"
+          },
+          "eventTrace": [
+            {
+              "event": "fixture-begin",
+              "activeSelection": null,
+              "elapsedMs": 0
+            },
+            {
+              "event": "own-started",
+              "session": "A",
+              "activeSelection": "A",
+              "elapsedMs": 0
+            },
+            {
+              "event": "unrelated-terminated",
+              "session": "P",
+              "activeSelection": "A",
+              "elapsedMs": 31
+            },
+            {
+              "event": "unrelated-termination-checkpoint",
+              "session": "A",
+              "activeSelection": "A",
+              "elapsedMs": 31
+            },
+            {
+              "event": "own-frame-selected",
+              "session": "A",
+              "activeSelection": "A",
+              "elapsedMs": 31
+            },
+            {
+              "event": "operation-settled",
+              "elapsedMs": 31
+            }
+          ],
+          "cleanup": {
+            "completed": true,
+            "subscriptionsRemaining": 0,
+            "hostTimersRemaining": 0,
+            "hostImmediatesRemaining": 0,
+            "timeoutResourcesBefore": 1,
+            "timeoutResourcesAfterQuiescence": 1,
+            "loggerErrorCount": 0
+          },
+          "pendingAfterUnrelatedTermination": true,
+          "controlPassed": true
+        }
+      ],
+      "cleanup": {
+        "completed": true,
+        "subscriptionsRemaining": 0,
+        "hostImportHookRestored": true,
+        "errorsOutsideScenarios": []
+      }
+    },
+    {
+      "mode": "confirm-bug",
+      "exitCode": 0,
+      "expectedExitCodeOnReviewedBaseline": 0,
+      "modeOutcomePassed": true,
+      "durationMs": 1524,
+      "readinessTimeoutMs": 200,
+      "controls": {
+        "count": 5,
+        "allFivePassed": true,
+        "unrelatedTerminationDidNotCompleteOwnLaunch": true
+      },
+      "scenarios": [
+        {
+          "kind": "unrelated-stays-active",
+          "scope": "production start handler and executor",
+          "expected": "terminated",
+          "actual": "timeout",
+          "healthyContractPassed": false,
+          "elapsedMs": 205,
+          "startCalls": 1,
+          "ownSessionTerminated": true,
+          "activeSelectionAfter": "P",
+          "globalStatusAfter": {
+            "status": "running",
+            "sessionActive": true,
+            "paused": false,
+            "session": "P"
+          },
+          "eventTrace": [
+            {
+              "event": "fixture-begin",
+              "session": "P",
+              "activeSelection": "P",
+              "elapsedMs": 0
+            },
+            {
+              "event": "own-started",
+              "session": "A",
+              "activeSelection": "A",
+              "elapsedMs": 1
+            },
+            {
+              "event": "own-terminated",
+              "session": "A",
+              "activeSelection": "P",
+              "elapsedMs": 27
+            },
+            {
+              "event": "own-termination-checkpoint",
+              "session": "A",
+              "activeSelection": "P",
+              "elapsedMs": 27
+            },
+            {
+              "event": "operation-settled",
+              "elapsedMs": 205
+            }
+          ],
+          "cleanup": {
+            "completed": true,
+            "subscriptionsRemaining": 0,
+            "hostTimersRemaining": 0,
+            "hostImmediatesRemaining": 0,
+            "timeoutResourcesBefore": 1,
+            "timeoutResourcesAfterQuiescence": 1,
+            "loggerErrorCount": 0
+          },
+          "ownTerminationCompletedAtCheckpoint": false,
+          "startAndTerminationIdentityMatch": true,
+          "exactCurrentBugObserved": true,
+          "startResponsePrefix": "Debug session is running but did not stop or terminate within the timeout for:"
+        },
+        {
+          "kind": "terminated-alone",
+          "scope": "production start handler and executor",
+          "expected": "terminated",
+          "actual": "terminated",
+          "healthyContractPassed": true,
+          "elapsedMs": 35,
+          "startCalls": 1,
+          "ownSessionTerminated": true,
+          "activeSelectionAfter": null,
+          "globalStatusAfter": {
+            "status": "no-session",
+            "sessionActive": false,
+            "paused": false,
+            "session": null
+          },
+          "eventTrace": [
+            {
+              "event": "fixture-begin",
+              "activeSelection": null,
+              "elapsedMs": 0
+            },
+            {
+              "event": "own-started",
+              "session": "A",
+              "activeSelection": "A",
+              "elapsedMs": 0
+            },
+            {
+              "event": "own-terminated",
+              "session": "A",
+              "activeSelection": null,
+              "elapsedMs": 34
+            },
+            {
+              "event": "operation-settled",
+              "elapsedMs": 34
+            },
+            {
+              "event": "own-termination-checkpoint",
+              "session": "A",
+              "activeSelection": null,
+              "elapsedMs": 34
+            }
+          ],
+          "cleanup": {
+            "completed": true,
+            "subscriptionsRemaining": 0,
+            "hostTimersRemaining": 0,
+            "hostImmediatesRemaining": 0,
+            "timeoutResourcesBefore": 1,
+            "timeoutResourcesAfterQuiescence": 1,
+            "loggerErrorCount": 0
+          },
+          "ownTerminationCompletedAtCheckpoint": true,
+          "controlPassed": true
+        },
+        {
+          "kind": "frame-selected",
+          "scope": "production start handler and executor",
+          "expected": "stopped",
+          "actual": "stopped",
+          "healthyContractPassed": true,
+          "elapsedMs": 23,
+          "startCalls": 1,
+          "ownSessionTerminated": false,
+          "activeSelectionAfter": "A",
+          "globalStatusAfter": {
+            "status": "paused",
+            "sessionActive": true,
+            "paused": true,
+            "session": "A"
+          },
+          "eventTrace": [
+            {
+              "event": "fixture-begin",
+              "activeSelection": null,
+              "elapsedMs": 0
+            },
+            {
+              "event": "own-started",
+              "session": "A",
+              "activeSelection": "A",
+              "elapsedMs": 0
+            },
+            {
+              "event": "own-frame-selected",
+              "session": "A",
+              "activeSelection": "A",
+              "elapsedMs": 22
+            },
+            {
+              "event": "operation-settled",
+              "elapsedMs": 23
+            }
+          ],
+          "cleanup": {
+            "completed": true,
+            "subscriptionsRemaining": 0,
+            "hostTimersRemaining": 0,
+            "hostImmediatesRemaining": 0,
+            "timeoutResourcesBefore": 1,
+            "timeoutResourcesAfterQuiescence": 1,
+            "loggerErrorCount": 0
+          },
+          "controlPassed": true
+        },
+        {
+          "kind": "attach-running",
+          "scope": "production start handler and executor",
+          "expected": "attached",
+          "actual": "attached",
+          "healthyContractPassed": true,
+          "elapsedMs": 0,
+          "startCalls": 1,
+          "ownSessionTerminated": false,
+          "activeSelectionAfter": "A",
+          "globalStatusAfter": {
+            "status": "running",
+            "sessionActive": true,
+            "paused": false,
+            "session": "A"
+          },
+          "eventTrace": [
+            {
+              "event": "fixture-begin",
+              "activeSelection": null,
+              "elapsedMs": 0
+            },
+            {
+              "event": "own-started",
+              "session": "A",
+              "activeSelection": "A",
+              "elapsedMs": 0
+            },
+            {
+              "event": "operation-settled",
+              "elapsedMs": 0
+            }
+          ],
+          "cleanup": {
+            "completed": true,
+            "subscriptionsRemaining": 0,
+            "hostTimersRemaining": 0,
+            "hostImmediatesRemaining": 0,
+            "timeoutResourcesBefore": 1,
+            "timeoutResourcesAfterQuiescence": 1,
+            "loggerErrorCount": 0
+          },
+          "controlPassed": true
+        },
+        {
+          "kind": "no-launch",
+          "scope": "executor readiness method",
+          "expected": "no-session",
+          "actual": "no-session",
+          "healthyContractPassed": true,
+          "elapsedMs": 215,
+          "startCalls": 0,
+          "ownSessionTerminated": false,
+          "activeSelectionAfter": null,
+          "globalStatusAfter": {
+            "status": "no-session",
+            "sessionActive": false,
+            "paused": false,
+            "session": null
+          },
+          "eventTrace": [
+            {
+              "event": "fixture-begin",
+              "activeSelection": null,
+              "elapsedMs": 0
+            },
+            {
+              "event": "operation-settled",
+              "elapsedMs": 215
+            }
+          ],
+          "cleanup": {
+            "completed": true,
+            "subscriptionsRemaining": 0,
+            "hostTimersRemaining": 0,
+            "hostImmediatesRemaining": 0,
+            "timeoutResourcesBefore": 1,
+            "timeoutResourcesAfterQuiescence": 1,
+            "loggerErrorCount": 0
+          },
+          "controlPassed": true
+        },
+        {
+          "kind": "unrelated-termination",
+          "scope": "production start handler and executor",
+          "expected": "stopped",
+          "actual": "stopped",
+          "healthyContractPassed": true,
+          "elapsedMs": 32,
+          "startCalls": 1,
+          "ownSessionTerminated": false,
+          "activeSelectionAfter": "A",
+          "globalStatusAfter": {
+            "status": "paused",
+            "sessionActive": true,
+            "paused": true,
+            "session": "A"
+          },
+          "eventTrace": [
+            {
+              "event": "fixture-begin",
+              "activeSelection": null,
+              "elapsedMs": 0
+            },
+            {
+              "event": "own-started",
+              "session": "A",
+              "activeSelection": "A",
+              "elapsedMs": 0
+            },
+            {
+              "event": "unrelated-terminated",
+              "session": "P",
+              "activeSelection": "A",
+              "elapsedMs": 32
+            },
+            {
+              "event": "unrelated-termination-checkpoint",
+              "session": "A",
+              "activeSelection": "A",
+              "elapsedMs": 32
+            },
+            {
+              "event": "own-frame-selected",
+              "session": "A",
+              "activeSelection": "A",
+              "elapsedMs": 32
+            },
+            {
+              "event": "operation-settled",
+              "elapsedMs": 32
+            }
+          ],
+          "cleanup": {
+            "completed": true,
+            "subscriptionsRemaining": 0,
+            "hostTimersRemaining": 0,
+            "hostImmediatesRemaining": 0,
+            "timeoutResourcesBefore": 1,
+            "timeoutResourcesAfterQuiescence": 1,
+            "loggerErrorCount": 0
+          },
+          "pendingAfterUnrelatedTermination": true,
+          "controlPassed": true
+        }
+      ],
+      "cleanup": {
+        "completed": true,
+        "subscriptionsRemaining": 0,
+        "hostImportHookRestored": true,
+        "errorsOutsideScenarios": []
+      }
+    }
+  ],
+  "modules": [
+    {
+      "source": "src/utils/logger.ts",
+      "sourceSha256": "aa9a9089a8ab7ccda42fe9dd39581335ffd1f10aac0902dab2a6e6c22815832f",
+      "compiledSha256": "b22e48f4944092050d2d46ef9fecf703c67d9ce0c8315c8b705ebd31bd42290f"
+    },
+    {
+      "source": "src/debuggingExecutor.ts",
+      "sourceSha256": "619a28c52bd58eb47a81e7b1a4c64cfe535a1fb1324bf3c32300e072d3f1089e",
+      "compiledSha256": "dc97d34a71e202a7db20b46d6087c4761f1a01aea62908e7bc74b4493cc284d6"
+    },
+    {
+      "source": "src/debugState.ts",
+      "sourceSha256": "099bb652305297c59f0259fea384c2c1a870b5c876a0d584174409de85a54b06",
+      "compiledSha256": "1be018565786ce9d24b09af5f29c327261d76e884fcc89b68a15535406491fea"
+    },
+    {
+      "source": "src/utils/withTimeout.ts",
+      "sourceSha256": "ab47385d9c3b9db6da7d3269c568258d7273b0c6e8751b2967597481506e1ff8",
+      "compiledSha256": "f4014d961e6c8f05c36461daa2c8699dd8b60e19a15d6463bdde185305cf952e"
+    },
+    {
+      "source": "src/utils/debugStartup.ts",
+      "sourceSha256": "0e6bad5b6f3646de68d1028fe6873f61cd346cb8d0e6cae41fb612723c604110",
+      "compiledSha256": "88ab4a093fbe721fa873505e4bdfc605849aef8d6358ac3c823ba795ca5b0bfb"
+    },
+    {
+      "source": "src/debuggingHandler.ts",
+      "sourceSha256": "440d0e43c9040c8db34d9945420404461179566aaf4d4a24d4c6b14dd2f857bb",
+      "compiledSha256": "ce35df2757ed96ac63cba04467dc0a126664f4c72a939495e6427bdea86cb54b"
+    },
+    {
+      "source": "src/utils/debugConfigurationManager.ts",
+      "sourceSha256": "cf73e9fdcf688a36f1b38a95a9bc851ae2e66e724391c9b2d0f403ed19f4654a",
+      "compiledSha256": "923dcf2c9b04129db829a3ea89938c42b0ee61b5b019b3a97b51011b68a3d197"
+    },
+    {
+      "source": "src/utils/secretRedaction.ts",
+      "sourceSha256": "3f75c69335af25e6766abb8961941e18009c4346d90893b7eb8af15fd5a495ad",
+      "compiledSha256": "98926f38e08adefbaafd85078b57fde73f11d4cdd9f1cbac7a929fb3d2c941e6"
+    }
+  ],
+  "reproduction": {
+    "script": "scripts/review/vscode-launch-termination-readiness.cjs",
+    "loader": "scripts/review/load-debugmcp.cjs",
+    "draft": "docs/issues/vscode-launch-termination-readiness.md"
+  }
+}

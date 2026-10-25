@@ -90,20 +90,24 @@ failure would not reproduce the suspected defect.
 
 The separate [review harnesses](docs/review-reproductions.md) investigate unmatched
 workspace routing, readiness on a second standalone CLI launch, execution
-state after an adapter exits during navigation, and registry recovery after
-missed heartbeats. They load
+state after an adapter exits during navigation, registry recovery after
+missed heartbeats, and readiness after a VS Code launch ends while another
+session remains selected. They load
 compiled code from a separately supplied Microsoft/DebugMCP checkout and use
-isolated recording workers or a synthetic DAP adapter. Their default mode checks
+isolated recording workers, a synthetic DAP adapter, or a VS Code host API double.
+Their default mode checks
 the healthy contract; `--expect-current-bug` verifies the specific observed
 defect signatures and positive controls. See the procedure for setup, scope,
 expected exit codes, and the issue reports.
 
-These findings are reported as
+Published findings are reported as
 [Microsoft/DebugMCP#191](https://github.com/microsoft/DebugMCP/issues/191)
 (unmatched workspace routing) and
 [Microsoft/DebugMCP#192](https://github.com/microsoft/DebugMCP/issues/192)
 (second CLI launch readiness). The adapter-exit finding is tracked in
-[Microsoft/DebugMCP#193](https://github.com/microsoft/DebugMCP/issues/193).
+[Microsoft/DebugMCP#193](https://github.com/microsoft/DebugMCP/issues/193), and registry
+recovery in [Microsoft/DebugMCP#194](https://github.com/microsoft/DebugMCP/issues/194).
+The VS Code launch-readiness report is awaiting upstream publication.
 Issue instructions and reproduction links use
 this repository's `main` branch. Publish reproduction material through a merged
 pull request before creating an upstream issue; the tested Microsoft source
