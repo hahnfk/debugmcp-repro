@@ -79,3 +79,15 @@ A possible fix is to reject an explicit unmatched path immediately, while preser
 - [Open PR #137](https://github.com/microsoft/DebugMCP/pull/137) extends routing for virtual source URIs. Its reviewed diff preserves the native-path cache/recovery behavior described here.
 
 The historical registry tests reject a foreign path at the registry layer. The missing integration coverage is the router's subsequent fallback after that rejection.
+
+## Investigation tooling
+
+This investigation and its reproduction work were carried out with assistance
+from OpenAI Codex.
+
+- Codex desktop app version: `26.1021.31345` (build `21828`).
+- Version verified on `2026-10-25`, when this tooling disclosure was added.
+
+The automated reproduction runs directly as an isolated Node.js harness against
+the DebugMCP implementation. Codex assisted the investigation, harness authoring
+and report preparation.
