@@ -184,8 +184,8 @@ reproduction constants.
   [upstream issue #194](https://github.com/microsoft/DebugMCP/issues/194)
 - [VS Code launch termination readiness](issues/vscode-launch-termination-readiness.md)
   — [upstream issue #195](https://github.com/microsoft/DebugMCP/issues/195)
-- [Output after debuggee exit](issues/debug-output-after-exited.md) — upstream
-  publication pending.
+- [Output after debuggee exit](issues/debug-output-after-exited.md) —
+  [upstream issue #196](https://github.com/microsoft/DebugMCP/issues/196)
 
 The reports link to pinned upstream code. Their fixture links are relative to
 this reproduction repository. Public GitHub issue versions link to this

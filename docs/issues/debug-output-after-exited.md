@@ -1,5 +1,7 @@
 # VS Code output capture discards output between DAP exited and terminated
 
+Upstream issue: [microsoft/DebugMCP#196](https://github.com/microsoft/DebugMCP/issues/196).
+
 ## Summary
 
 With output capture enabled, DebugMCP records output before a DAP `exited`

@@ -110,7 +110,8 @@ Published findings are reported as
 recovery in [Microsoft/DebugMCP#194](https://github.com/microsoft/DebugMCP/issues/194).
 The VS Code launch-readiness report is tracked in
 [Microsoft/DebugMCP#195](https://github.com/microsoft/DebugMCP/issues/195).
-The output-after-exit report is awaiting upstream publication.
+The output-after-exit report is tracked in
+[Microsoft/DebugMCP#196](https://github.com/microsoft/DebugMCP/issues/196).
 Issue instructions and reproduction links use
 this repository's `main` branch. Publish reproduction material through a merged
 pull request before creating an upstream issue; the tested Microsoft source
