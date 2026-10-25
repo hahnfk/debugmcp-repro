@@ -85,3 +85,13 @@ its own standard Streamable HTTP MCP client named `debugmcp_repro` at the confir
 Normal output checks and matching PDBs do not prove debugger expression evaluation.
 The negative control intentionally requests a variable outside its scope; that
 failure would not reproduce the suspected defect.
+
+## Source-level review reproductions
+
+The separate [review harnesses](docs/review-reproductions.md) investigate unmatched
+workspace routing and readiness on a second standalone CLI launch. They load
+compiled code from a separately supplied Microsoft/DebugMCP checkout and use
+isolated recording workers or a synthetic DAP adapter. Their default mode checks
+the healthy contract; `--expect-current-bug` verifies the specific observed
+defect signatures and positive controls. See the procedure for setup, scope,
+expected exit codes, and the two local issue drafts.

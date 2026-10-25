@@ -1,0 +1,300 @@
+{
+  "recordedUtc": "2026-10-25T17:14:59.5220177Z",
+  "upstreamRepository": "https://github.com/microsoft/DebugMCP",
+  "upstreamCommit": "d0b4a334a6a3d8d600c5aa75ec60d9de272af3c4",
+  "upstreamVersion": "2.4.4",
+  "sourceDirty": false,
+  "environment": {
+    "platform": "win32",
+    "architecture": "x64",
+    "node": "v24.22.1"
+  },
+  "validationScope": "Isolated integration harnesses using unchanged compiled production classes; no real VS Code window or language debug adapter.",
+  "runs": [
+    {
+      "harness": "unmatched-workspace-routing",
+      "mode": "regression",
+      "exitCode": 1,
+      "expectedExitCode": 1,
+      "passed": false,
+      "durationMs": 811,
+      "details": {
+        "caseCount": 5,
+        "positiveControls": 3,
+        "bugSignatures": 2,
+        "workersStopped": true,
+        "temporaryDirectoryRemoved": true
+      }
+    },
+    {
+      "harness": "unmatched-workspace-routing",
+      "mode": "confirm-bug",
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "passed": true,
+      "durationMs": 786,
+      "details": {
+        "caseCount": 5,
+        "positiveControls": 3,
+        "bugSignatures": 2,
+        "workersStopped": true,
+        "temporaryDirectoryRemoved": true
+      }
+    },
+    {
+      "harness": "cli-second-start-readiness",
+      "mode": "regression",
+      "exitCode": 1,
+      "expectedExitCode": 1,
+      "passed": false,
+      "durationMs": 2429,
+      "details": {
+        "recoveryCases": [
+          {
+            "paused": true,
+            "active": true,
+            "firstEnd": "stop_debugging",
+            "secondReply": "terminated",
+            "firstReply": "stopped"
+          },
+          {
+            "paused": true,
+            "active": true,
+            "firstEnd": "continue_execution",
+            "secondReply": "terminated",
+            "firstReply": "stopped"
+          }
+        ],
+        "freshExecutorControl": true,
+        "fixtureCount": 5,
+        "cleanup": true
+      }
+    },
+    {
+      "harness": "cli-second-start-readiness",
+      "mode": "confirm-bug",
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "passed": true,
+      "durationMs": 2352,
+      "details": {
+        "recoveryCases": [
+          {
+            "paused": true,
+            "active": true,
+            "firstEnd": "stop_debugging",
+            "secondReply": "terminated",
+            "firstReply": "stopped"
+          },
+          {
+            "paused": true,
+            "active": true,
+            "firstEnd": "continue_execution",
+            "secondReply": "terminated",
+            "firstReply": "stopped"
+          }
+        ],
+        "freshExecutorControl": true,
+        "fixtureCount": 5,
+        "cleanup": true
+      }
+    }
+  ],
+  "routingCases": [
+    {
+      "name": "fresh-unmatched-path-with-sole-window",
+      "expected": {
+        "outcome": "rejected",
+        "diagnostic": "unmatched-workspace",
+        "workerCalls": []
+      },
+      "actual": {
+        "workerCalls": [
+          {
+            "window": "A",
+            "operation": "handleStartDebugging"
+          }
+        ],
+        "outcome": "resolved",
+        "window": "A"
+      },
+      "regressionPassed": false,
+      "bugReproduced": true
+    },
+    {
+      "name": "cached-A-unmatched-path-with-two-windows",
+      "expected": {
+        "outcome": "rejected",
+        "diagnostic": "unmatched-workspace",
+        "workerCalls": []
+      },
+      "actual": {
+        "workerCalls": [
+          {
+            "window": "A",
+            "operation": "handleStartDebugging"
+          }
+        ],
+        "outcome": "resolved",
+        "window": "A"
+      },
+      "regressionPassed": false,
+      "bugReproduced": true
+    },
+    {
+      "name": "matching-path-selects-B",
+      "expected": {
+        "outcome": "resolved",
+        "window": "B",
+        "workerCalls": 1
+      },
+      "actual": {
+        "workerCalls": [
+          {
+            "window": "B",
+            "operation": "handleStartDebugging"
+          }
+        ],
+        "outcome": "resolved",
+        "window": "B"
+      },
+      "regressionPassed": true,
+      "bugReproduced": false
+    },
+    {
+      "name": "hintless-followup-keeps-cached-A",
+      "expected": {
+        "outcome": "resolved",
+        "window": "A",
+        "operations": [
+          "handleStartDebugging",
+          "handleStepOver"
+        ]
+      },
+      "actual": {
+        "workerCalls": [
+          {
+            "window": "A",
+            "operation": "handleStartDebugging"
+          },
+          {
+            "window": "A",
+            "operation": "handleStepOver"
+          }
+        ],
+        "outcome": "resolved",
+        "window": "A"
+      },
+      "regressionPassed": true,
+      "bugReproduced": false
+    },
+    {
+      "name": "fresh-hintless-two-window-call-rejects",
+      "expected": {
+        "outcome": "rejected",
+        "diagnostic": "no-active-target",
+        "workerCalls": []
+      },
+      "actual": {
+        "workerCalls": [],
+        "outcome": "rejected",
+        "window": null
+      },
+      "regressionPassed": true,
+      "bugReproduced": false
+    }
+  ],
+  "cliCases": [
+    {
+      "firstSessionEnd": "stop_debugging",
+      "firstStartReply": "stopped",
+      "expectedSecondStartReply": "stopped",
+      "actualSecondStartReply": "terminated",
+      "secondSessionActive": true,
+      "secondSessionPaused": true,
+      "newSessionIdObserved": true,
+      "sameSavedBreakpoint": true,
+      "exactCurrentBugObserved": true
+    },
+    {
+      "firstSessionEnd": "continue_execution",
+      "firstStartReply": "stopped",
+      "expectedSecondStartReply": "stopped",
+      "actualSecondStartReply": "terminated",
+      "secondSessionActive": true,
+      "secondSessionPaused": true,
+      "newSessionIdObserved": true,
+      "sameSavedBreakpoint": true,
+      "exactCurrentBugObserved": true
+    }
+  ],
+  "cliControls": {
+    "firstStartsStopped": true,
+    "firstSessionsEnded": true,
+    "freshExecutorPassed": true
+  },
+  "loadedModules": [
+    {
+      "source": "src/cli/cliDebuggingExecutor.ts",
+      "sourceSha256": "a16f143a57e675b18e8c0ed2bc26d8fc18f577f05ed5eed247f5cfcffc5f52f1",
+      "compiledSha256": "1581220ae58c9f2c4c1b3fc8a51ab0697a8cd1b7c0fa7e10665435f85c8184e1"
+    },
+    {
+      "source": "src/cli/dapClient.ts",
+      "sourceSha256": "46da17f1491aef49443ab4760874b0a9005cb31efcef337070ea3a245ccd5bd6",
+      "compiledSha256": "e7ef7add25e0f2a4e7aea3781020b720c6ab6475761740e49d6fd38b469f4a3c"
+    },
+    {
+      "source": "src/controlServer.ts",
+      "sourceSha256": "893d661ddd51a1ec089ba0b694e05456a50be8880761f6db3ec2bbdcb20c0397",
+      "compiledSha256": "9fe3f2647d64136dd4ed1af7c8ae7f700b04c31e6868d9f5cb0556e6bff50194"
+    },
+    {
+      "source": "src/debuggingHandler.ts",
+      "sourceSha256": "440d0e43c9040c8db34d9945420404461179566aaf4d4a24d4c6b14dd2f857bb",
+      "compiledSha256": "ce35df2757ed96ac63cba04467dc0a126664f4c72a939495e6427bdea86cb54b"
+    },
+    {
+      "source": "src/debugState.ts",
+      "sourceSha256": "099bb652305297c59f0259fea384c2c1a870b5c876a0d584174409de85a54b06",
+      "compiledSha256": "1be018565786ce9d24b09af5f29c327261d76e884fcc89b68a15535406491fea"
+    },
+    {
+      "source": "src/routingDebuggingHandler.ts",
+      "sourceSha256": "15cf2ba20b28f23e797bbc55238fd9a4bae6a8344d5a9463181b8dce60f8d298",
+      "compiledSha256": "f99291a35d15ed77c214f4179feec3301b30a58dfca086aa6f0d4949180fab85"
+    },
+    {
+      "source": "src/utils/debugConfigurationManager.ts",
+      "sourceSha256": "cf73e9fdcf688a36f1b38a95a9bc851ae2e66e724391c9b2d0f403ed19f4654a",
+      "compiledSha256": "923dcf2c9b04129db829a3ea89938c42b0ee61b5b019b3a97b51011b68a3d197"
+    },
+    {
+      "source": "src/utils/debugOutputBuffer.ts",
+      "sourceSha256": "a57fa28ea140d4f3d1156baba57b5961cf052f16f98025b21c0e9b6e1b3c698d",
+      "compiledSha256": "6103d0ac60a5cd97289b067dffecf4d2fac1fef5e8e12bd0c6e42a81229d8d45"
+    },
+    {
+      "source": "src/utils/logger.ts",
+      "sourceSha256": "aa9a9089a8ab7ccda42fe9dd39581335ffd1f10aac0902dab2a6e6c22815832f",
+      "compiledSha256": "b22e48f4944092050d2d46ef9fecf703c67d9ce0c8315c8b705ebd31bd42290f"
+    },
+    {
+      "source": "src/utils/secretRedaction.ts",
+      "sourceSha256": "3f75c69335af25e6766abb8961941e18009c4346d90893b7eb8af15fd5a495ad",
+      "compiledSha256": "98926f38e08adefbaafd85078b57fde73f11d4cdd9f1cbac7a929fb3d2c941e6"
+    },
+    {
+      "source": "src/utils/withTimeout.ts",
+      "sourceSha256": "ab47385d9c3b9db6da7d3269c568258d7273b0c6e8751b2967597481506e1ff8",
+      "compiledSha256": "f4014d961e6c8f05c36461daa2c8699dd8b60e19a15d6463bdde185305cf952e"
+    },
+    {
+      "source": "src/utils/workspaceRegistry.ts",
+      "sourceSha256": "11a7a7bfcdbc88ac973b0c70f355f1385b6170e354a8b449a8f131c339e1f894",
+      "compiledSha256": "ff32955b0d72a3907b226155e7191996132678bc8fddcbdd7e8b3d8894aacab7"
+    }
+  ],
+  "localValues": "PIDs, ports, session IDs, run IDs, credentials and temporary paths are omitted; none is a reproduction constant.",
+  "publicationStatusAtRecording": "Local working files only; no issue, commit, or push performed for these reproductions."
+}
