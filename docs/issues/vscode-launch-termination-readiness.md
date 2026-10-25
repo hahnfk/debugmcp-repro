@@ -1,5 +1,7 @@
 # A completed VS Code launch waits for timeout while an independent session remains active
 
+Upstream issue: [microsoft/DebugMCP#195](https://github.com/microsoft/DebugMCP/issues/195).
+
 ## Summary
 
 Start a launch while an unrelated session already exists. If the new launch
