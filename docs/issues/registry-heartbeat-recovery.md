@@ -1,5 +1,7 @@
 # A live window stays undiscoverable after another window prunes its stale registry entry
 
+Upstream issue: [microsoft/DebugMCP#194](https://github.com/microsoft/DebugMCP/issues/194).
+
 ## Summary
 
 If one DebugMCP window misses registry heartbeats long enough for another window
