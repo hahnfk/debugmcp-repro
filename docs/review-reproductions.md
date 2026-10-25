@@ -11,6 +11,7 @@ They are separate from this repository's C# frame-evaluation sample.
 | `scripts/review/cli-second-start-readiness.cjs` | A second launch through the same handler waits for its own breakpoint and reports a stopped session. | The old session's `terminated` readiness produces a completion message for the still-active new launch. |
 | `scripts/review/cli-adapter-exit-navigation.cjs` | After the adapter exits during a navigation request, status reports no active or paused session. | The request fails, but the executor restores its previous stopped state and reports an active, paused session. |
 | `scripts/review/registry-heartbeat-recovery.cjs` | A still-running worker resumes advertising its workspace after its stale registration is pruned and it sends another heartbeat. | Heartbeats silently ignore the missing registration file, so the worker stays absent until it explicitly registers again. |
+| `scripts/review/vscode-launch-termination-readiness.cjs` | A named launch reports completion when its own session ends, even if another independent session remains selected. | The launch waits for the readiness timeout and reports that it is still running. |
 
 ## Preparation
 
@@ -54,6 +55,7 @@ node ./scripts/review/unmatched-workspace-routing.cjs --debugmcp-root $debugMcpR
 node ./scripts/review/cli-second-start-readiness.cjs --debugmcp-root $debugMcpRoot
 node ./scripts/review/cli-adapter-exit-navigation.cjs --debugmcp-root $debugMcpRoot
 node ./scripts/review/registry-heartbeat-recovery.cjs --debugmcp-root $debugMcpRoot
+node ./scripts/review/vscode-launch-termination-readiness.cjs --debugmcp-root $debugMcpRoot
 ```
 
 Each harness compares actual behavior with the healthy contract. On the reviewed
@@ -70,6 +72,7 @@ node ./scripts/review/unmatched-workspace-routing.cjs --debugmcp-root $debugMcpR
 node ./scripts/review/cli-second-start-readiness.cjs --debugmcp-root $debugMcpRoot --expect-current-bug
 node ./scripts/review/cli-adapter-exit-navigation.cjs --debugmcp-root $debugMcpRoot --expect-current-bug
 node ./scripts/review/registry-heartbeat-recovery.cjs --debugmcp-root $debugMcpRoot --expect-current-bug
+node ./scripts/review/vscode-launch-termination-readiness.cjs --debugmcp-root $debugMcpRoot --expect-current-bug
 ```
 
 This mode returns zero only when the specific reported defect and the positive
@@ -96,6 +99,12 @@ cover a live worker's registration being pruned, subsequent heartbeats, and
 explicit re-registration. Controls cover normal registration, a fresh
 heartbeat, and regular unregistering. The elapsed heartbeat interval is
 simulated by aging the fixture's own `updatedAt` test data.
+
+The [VS Code launch-readiness results](evidence/2026-10-25-vscode-launch-readiness.json)
+cover a named launch ending while an independent session remains selected.
+Controls distinguish normal termination, breakpoint readiness, attach readiness,
+no launch, and termination of an unrelated session. The VS Code event sequence
+comes from a controlled host API double.
 
 ## What is real and what is simulated
 
@@ -126,8 +135,17 @@ missed heartbeats; the system clock, registry methods and private state are not
 modified. This verifies the registry recovery path without claiming that a
 real VS Code extension host was suspended or that an OS sleep was reproduced.
 
-The loader supplies an import-only `vscode` stub for modules shared with the
-extension and suppresses the upstream logger. No VS Code operation is executed.
+The VS Code launch-readiness harness uses the actual upstream debugging handler
+and VS Code executor with a controlled implementation of the VS Code host APIs
+and events. It uses real timers and a configuration-provider double. No upstream
+method or private executor state is replaced. This tests the production response
+to the supplied event sequence; it does not capture a real VS Code extension
+host's event ordering or establish the cause of the earlier one-off C# timeout.
+
+The common loader supplies an import-only `vscode` stub for modules shared with
+the extension and suppresses the upstream logger. The launch-readiness harness
+first binds its explicit host API double during module import. No operation is
+sent to a real VS Code window.
 Thus the findings are isolated integration reproductions, not claims about a
 particular real language adapter or a live VS Code window.
 
@@ -147,6 +165,8 @@ reproduction constants.
   [upstream issue #193](https://github.com/microsoft/DebugMCP/issues/193)
 - [Registry heartbeat recovery](issues/registry-heartbeat-recovery.md) —
   [upstream issue #194](https://github.com/microsoft/DebugMCP/issues/194)
+- [VS Code launch termination readiness](issues/vscode-launch-termination-readiness.md)
+  — upstream publication pending.
 
 The reports link to pinned upstream code. Their fixture links are relative to
 this reproduction repository. Public GitHub issue versions link to this
