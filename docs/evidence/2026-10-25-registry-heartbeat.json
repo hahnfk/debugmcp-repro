@@ -1,0 +1,204 @@
+{
+  "recordedUtc": "2026-10-25T18:53:17.9169281Z",
+  "upstreamRepository": "https://github.com/microsoft/DebugMCP",
+  "upstreamCommit": "d0b4a334a6a3d8d600c5aa75ec60d9de272af3c4",
+  "upstreamVersion": "2.4.4",
+  "sourceDirty": false,
+  "environment": {
+    "platform": "win32",
+    "architecture": "x64",
+    "node": "v24.22.1"
+  },
+  "publicationStatusAtRecording": "Local draft; reproduction material has not yet been committed or published.",
+  "validationScope": "Actual compiled WorkspaceRegistry in two owned Node processes, with real filesystem and process-liveness checks. Idle loopback listeners reserve OS-assigned registration metadata ports; they are not ControlServer instances. An error-counting logger sink excludes unexpected heartbeat errors from the exact-bug signature.",
+  "fixtureDataPolicy": "Only updatedAt in a registration file owned by this harness is aged. All other registration fields are preserved and checked. No system clock changes, registry method overrides or private-state writes.",
+  "limitations": [
+    "Elapsed heartbeat time is simulated by fixture timestamp aging; no real VS Code host pause or OS suspend/resume sequence was reproduced.",
+    "The evidence concerns registry discoverability and new path-based resolution. Existing cached routing targets may continue to work.",
+    "Module hashes provide traceability; they do not independently prove source-to-output correspondence."
+  ],
+  "expected": {
+    "activeOwnerFindableAfterEveryHeartbeat": true,
+    "peerBRetained": true,
+    "healthyRegressionExitCode": 0
+  },
+  "observed": {
+    "peerPrunesLiveOwner": true,
+    "completedHeartbeats": 3,
+    "ownerFindableAfterHeartbeats": false,
+    "explicitRegisterRestoresDiscoverability": true
+  },
+  "runs": [
+    {
+      "mode": "regression",
+      "exitCode": 1,
+      "expectedExitCodeOnReviewedBaseline": 1,
+      "modeOutcomePassed": false,
+      "healthyContractPassed": false,
+      "exactCurrentBugReproduced": true,
+      "durationMs": 805,
+      "fixtureTimestampAgeMs": 61000,
+      "onlyUpdatedAtChanged": true,
+      "peerRemovedLiveA": true,
+      "heartbeatAttempts": [
+        {
+          "attempt": 1,
+          "heartbeatCompleted": true,
+          "registryErrorCount": 0,
+          "AFilePresent": false,
+          "AListed": false,
+          "AFindableByPath": false,
+          "BFindableByPath": true,
+          "bothOriginalWorkersAlive": true,
+          "healthyRecovery": false,
+          "stillMissing": true
+        },
+        {
+          "attempt": 2,
+          "heartbeatCompleted": true,
+          "registryErrorCount": 0,
+          "AFilePresent": false,
+          "AListed": false,
+          "AFindableByPath": false,
+          "BFindableByPath": true,
+          "bothOriginalWorkersAlive": true,
+          "healthyRecovery": false,
+          "stillMissing": true
+        },
+        {
+          "attempt": 3,
+          "heartbeatCompleted": true,
+          "registryErrorCount": 0,
+          "AFilePresent": false,
+          "AListed": false,
+          "AFindableByPath": false,
+          "BFindableByPath": true,
+          "bothOriginalWorkersAlive": true,
+          "healthyRecovery": false,
+          "stillMissing": true
+        }
+      ],
+      "controls": [
+        {
+          "name": "register-and-find-live-workers",
+          "passed": true
+        },
+        {
+          "name": "fresh-heartbeat-updates-persistent-entry",
+          "passed": true
+        },
+        {
+          "name": "unregister-removes-only-own-entry",
+          "passed": true
+        },
+        {
+          "name": "explicit-register-restores-discoverability",
+          "passed": true
+        }
+      ],
+      "liveness": {
+        "observations": 22,
+        "checks": "IPC identity nonce plus read-only OS process liveness",
+        "allOriginalWorkersAlive": true
+      },
+      "cleanup": {
+        "fixtureWorkersStopped": true,
+        "temporaryDirectoryRemoved": true
+      }
+    },
+    {
+      "mode": "confirm-bug",
+      "exitCode": 0,
+      "expectedExitCodeOnReviewedBaseline": 0,
+      "modeOutcomePassed": true,
+      "healthyContractPassed": false,
+      "exactCurrentBugReproduced": true,
+      "durationMs": 781,
+      "fixtureTimestampAgeMs": 61000,
+      "onlyUpdatedAtChanged": true,
+      "peerRemovedLiveA": true,
+      "heartbeatAttempts": [
+        {
+          "attempt": 1,
+          "heartbeatCompleted": true,
+          "registryErrorCount": 0,
+          "AFilePresent": false,
+          "AListed": false,
+          "AFindableByPath": false,
+          "BFindableByPath": true,
+          "bothOriginalWorkersAlive": true,
+          "healthyRecovery": false,
+          "stillMissing": true
+        },
+        {
+          "attempt": 2,
+          "heartbeatCompleted": true,
+          "registryErrorCount": 0,
+          "AFilePresent": false,
+          "AListed": false,
+          "AFindableByPath": false,
+          "BFindableByPath": true,
+          "bothOriginalWorkersAlive": true,
+          "healthyRecovery": false,
+          "stillMissing": true
+        },
+        {
+          "attempt": 3,
+          "heartbeatCompleted": true,
+          "registryErrorCount": 0,
+          "AFilePresent": false,
+          "AListed": false,
+          "AFindableByPath": false,
+          "BFindableByPath": true,
+          "bothOriginalWorkersAlive": true,
+          "healthyRecovery": false,
+          "stillMissing": true
+        }
+      ],
+      "controls": [
+        {
+          "name": "register-and-find-live-workers",
+          "passed": true
+        },
+        {
+          "name": "fresh-heartbeat-updates-persistent-entry",
+          "passed": true
+        },
+        {
+          "name": "unregister-removes-only-own-entry",
+          "passed": true
+        },
+        {
+          "name": "explicit-register-restores-discoverability",
+          "passed": true
+        }
+      ],
+      "liveness": {
+        "observations": 22,
+        "checks": "IPC identity nonce plus read-only OS process liveness",
+        "allOriginalWorkersAlive": true
+      },
+      "cleanup": {
+        "fixtureWorkersStopped": true,
+        "temporaryDirectoryRemoved": true
+      }
+    }
+  ],
+  "modules": [
+    {
+      "source": "src/utils/workspaceRegistry.ts",
+      "sourceSha256": "11a7a7bfcdbc88ac973b0c70f355f1385b6170e354a8b449a8f131c339e1f894",
+      "compiledSha256": "ff32955b0d72a3907b226155e7191996132678bc8fddcbdd7e8b3d8894aacab7"
+    },
+    {
+      "source": "src/utils/logger.ts",
+      "sourceSha256": "aa9a9089a8ab7ccda42fe9dd39581335ffd1f10aac0902dab2a6e6c22815832f",
+      "compiledSha256": "b22e48f4944092050d2d46ef9fecf703c67d9ce0c8315c8b705ebd31bd42290f"
+    }
+  ],
+  "reproduction": {
+    "script": "scripts/review/registry-heartbeat-recovery.cjs",
+    "loader": "scripts/review/load-debugmcp.cjs",
+    "draft": "docs/issues/registry-heartbeat-recovery.md"
+  }
+}

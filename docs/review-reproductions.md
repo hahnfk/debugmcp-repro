@@ -10,6 +10,7 @@ They are separate from this repository's C# frame-evaluation sample.
 | `scripts/review/unmatched-workspace-routing.cjs` | Reject an explicit project path that belongs to no registered workspace, without forwarding an operation. | A fresh router with one registered workspace, or a router with a cached target, forwards the operation to that unrelated workspace. |
 | `scripts/review/cli-second-start-readiness.cjs` | A second launch through the same handler waits for its own breakpoint and reports a stopped session. | The old session's `terminated` readiness produces a completion message for the still-active new launch. |
 | `scripts/review/cli-adapter-exit-navigation.cjs` | After the adapter exits during a navigation request, status reports no active or paused session. | The request fails, but the executor restores its previous stopped state and reports an active, paused session. |
+| `scripts/review/registry-heartbeat-recovery.cjs` | A still-running worker resumes advertising its workspace after its stale registration is pruned and it sends another heartbeat. | Heartbeats silently ignore the missing registration file, so the worker stays absent until it explicitly registers again. |
 
 ## Preparation
 
@@ -52,6 +53,7 @@ checkout path:
 node ./scripts/review/unmatched-workspace-routing.cjs --debugmcp-root $debugMcpRoot
 node ./scripts/review/cli-second-start-readiness.cjs --debugmcp-root $debugMcpRoot
 node ./scripts/review/cli-adapter-exit-navigation.cjs --debugmcp-root $debugMcpRoot
+node ./scripts/review/registry-heartbeat-recovery.cjs --debugmcp-root $debugMcpRoot
 ```
 
 Each harness compares actual behavior with the healthy contract. On the reviewed
@@ -67,6 +69,7 @@ For automated reproduction on the reviewed baseline:
 node ./scripts/review/unmatched-workspace-routing.cjs --debugmcp-root $debugMcpRoot --expect-current-bug
 node ./scripts/review/cli-second-start-readiness.cjs --debugmcp-root $debugMcpRoot --expect-current-bug
 node ./scripts/review/cli-adapter-exit-navigation.cjs --debugmcp-root $debugMcpRoot --expect-current-bug
+node ./scripts/review/registry-heartbeat-recovery.cjs --debugmcp-root $debugMcpRoot --expect-current-bug
 ```
 
 This mode returns zero only when the specific reported defect and the positive
@@ -87,6 +90,12 @@ cover abrupt adapter termination during Step Over and Continue, rejected
 requests with a surviving adapter, and successful navigation controls. Every
 case starts a fresh executor so the second-start readiness finding cannot affect
 this comparison.
+
+The [registry recovery results](evidence/2026-10-25-registry-heartbeat.json)
+cover a live worker's registration being pruned, subsequent heartbeats, and
+explicit re-registration. Controls cover normal registration, a fresh
+heartbeat, and regular unregistering. The elapsed heartbeat interval is
+simulated by aging the fixture's own `updatedAt` test data.
 
 ## What is real and what is simulated
 
@@ -110,6 +119,13 @@ therefore handles the failure. Status is then checked through the public
 handler. The rejected-request controls keep the adapter alive and verify that
 an ordinary DAP rejection still preserves the stopped session.
 
+The registry harness runs the upstream `WorkspaceRegistry` in two owned Node.js
+worker processes. It operates on an isolated on-disk registry and uses real
+process-liveness checks. Only the registration timestamp is aged to simulate
+missed heartbeats; the system clock, registry methods and private state are not
+modified. This verifies the registry recovery path without claiming that a
+real VS Code extension host was suspended or that an OS sleep was reproduced.
+
 The loader supplies an import-only `vscode` stub for modules shared with the
 extension and suppresses the upstream logger. No VS Code operation is executed.
 Thus the findings are isolated integration reproductions, not claims about a
@@ -129,6 +145,8 @@ reproduction constants.
   [upstream issue #192](https://github.com/microsoft/DebugMCP/issues/192)
 - [Adapter exit during navigation](issues/cli-adapter-exit-navigation.md) —
   [upstream issue #193](https://github.com/microsoft/DebugMCP/issues/193)
+- [Registry heartbeat recovery](issues/registry-heartbeat-recovery.md) — upstream
+  publication pending.
 
 The reports link to pinned upstream code. Their fixture links are relative to
 this reproduction repository. Public GitHub issue versions link to this
