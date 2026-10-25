@@ -89,8 +89,9 @@ failure would not reproduce the suspected defect.
 ## Source-level review reproductions
 
 The separate [review harnesses](docs/review-reproductions.md) investigate unmatched
-workspace routing, readiness on a second standalone CLI launch, and execution
-state after an adapter exits during navigation. They load
+workspace routing, readiness on a second standalone CLI launch, execution
+state after an adapter exits during navigation, and registry recovery after
+missed heartbeats. They load
 compiled code from a separately supplied Microsoft/DebugMCP checkout and use
 isolated recording workers or a synthetic DAP adapter. Their default mode checks
 the healthy contract; `--expect-current-bug` verifies the specific observed
