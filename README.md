@@ -91,8 +91,9 @@ failure would not reproduce the suspected defect.
 The separate [review harnesses](docs/review-reproductions.md) investigate unmatched
 workspace routing, readiness on a second standalone CLI launch, execution
 state after an adapter exits during navigation, registry recovery after
-missed heartbeats, and readiness after a VS Code launch ends while another
-session remains selected. They load
+missed heartbeats, readiness after a VS Code launch ends while another
+session remains selected, and output capture between DAP `exited` and
+`terminated` events. They load
 compiled code from a separately supplied Microsoft/DebugMCP checkout and use
 isolated recording workers, a synthetic DAP adapter, or a VS Code host API double.
 Their default mode checks
@@ -109,6 +110,7 @@ Published findings are reported as
 recovery in [Microsoft/DebugMCP#194](https://github.com/microsoft/DebugMCP/issues/194).
 The VS Code launch-readiness report is tracked in
 [Microsoft/DebugMCP#195](https://github.com/microsoft/DebugMCP/issues/195).
+The output-after-exit report is awaiting upstream publication.
 Issue instructions and reproduction links use
 this repository's `main` branch. Publish reproduction material through a merged
 pull request before creating an upstream issue; the tested Microsoft source

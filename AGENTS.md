@@ -8,6 +8,9 @@
 - Public issue instructions and reproduction links must use this repository's
   `main` branch. Do not require a feature-branch checkout or link to a feature
   branch. Verify that all linked files are available on `main` before posting.
+- After merging, rerun each newly added reproduction harness from this
+  repository's `main` before publishing its upstream issue. Recheck whether the
+  pinned Microsoft source baseline still matches the current upstream `main`.
 - Keep the tested Microsoft/DebugMCP source commit as the upstream version
   baseline. This is distinct from the reproduction repository's publication
   branch and remains necessary for repeatable results.
