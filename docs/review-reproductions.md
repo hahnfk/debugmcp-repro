@@ -12,6 +12,7 @@ They are separate from this repository's C# frame-evaluation sample.
 | `scripts/review/cli-adapter-exit-navigation.cjs` | After the adapter exits during a navigation request, status reports no active or paused session. | The request fails, but the executor restores its previous stopped state and reports an active, paused session. |
 | `scripts/review/registry-heartbeat-recovery.cjs` | A still-running worker resumes advertising its workspace after its stale registration is pruned and it sends another heartbeat. | Heartbeats silently ignore the missing registration file, so the worker stays absent until it explicitly registers again. |
 | `scripts/review/vscode-launch-termination-readiness.cjs` | A named launch reports completion when its own session ends, even if another independent session remains selected. | The launch waits for the readiness timeout and reports that it is still running. |
+| `scripts/review/debug-output-after-exited.cjs` | Output delivered after debuggee `exited` and before session `terminated` remains retrievable. | The tracker stops forwarding output at `exited`, so only earlier output is captured. |
 
 ## Preparation
 
@@ -56,6 +57,7 @@ node ./scripts/review/cli-second-start-readiness.cjs --debugmcp-root $debugMcpRo
 node ./scripts/review/cli-adapter-exit-navigation.cjs --debugmcp-root $debugMcpRoot
 node ./scripts/review/registry-heartbeat-recovery.cjs --debugmcp-root $debugMcpRoot
 node ./scripts/review/vscode-launch-termination-readiness.cjs --debugmcp-root $debugMcpRoot
+node ./scripts/review/debug-output-after-exited.cjs --debugmcp-root $debugMcpRoot
 ```
 
 Each harness compares actual behavior with the healthy contract. On the reviewed
@@ -73,6 +75,7 @@ node ./scripts/review/cli-second-start-readiness.cjs --debugmcp-root $debugMcpRo
 node ./scripts/review/cli-adapter-exit-navigation.cjs --debugmcp-root $debugMcpRoot --expect-current-bug
 node ./scripts/review/registry-heartbeat-recovery.cjs --debugmcp-root $debugMcpRoot --expect-current-bug
 node ./scripts/review/vscode-launch-termination-readiness.cjs --debugmcp-root $debugMcpRoot --expect-current-bug
+node ./scripts/review/debug-output-after-exited.cjs --debugmcp-root $debugMcpRoot --expect-current-bug
 ```
 
 This mode returns zero only when the specific reported defect and the positive
@@ -105,6 +108,12 @@ cover a named launch ending while an independent session remains selected.
 Controls distinguish normal termination, breakpoint readiness, attach readiness,
 no launch, and termination of an unrelated session. The VS Code event sequence
 comes from a controlled host API double.
+
+The [output lifecycle results](evidence/2026-10-25-debug-output-after-exited.json)
+cover output delivered between debuggee exit and session termination. Controls
+cover retained history, cursor pagination, capture disabled, session isolation,
+stale tracker generations and final host-stop boundaries. Capture after program
+exit must not restore a paused execution context.
 
 ## What is real and what is simulated
 
@@ -142,6 +151,14 @@ method or private executor state is replaced. This tests the production response
 to the supplied event sequence; it does not capture a real VS Code extension
 host's event ordering or establish the cause of the earlier one-off C# timeout.
 
+The output-lifecycle harness uses the actual tracker, output buffer, executor
+and output-retrieval handler. A constructor-injected host API double registers
+the tracker factory and lifecycle listener; synthetic DAP messages reach the
+factory's real adapter-tracker callbacks. A local opt-in provider enables capture
+without changing user settings. The test does not run a real adapter or capture
+an installed editor's output. Any cited adapter source is separate static
+corroboration, not a live execution performed by this harness.
+
 The common loader supplies an import-only `vscode` stub for modules shared with
 the extension and suppresses the upstream logger. The launch-readiness harness
 first binds its explicit host API double during module import. No operation is
@@ -167,6 +184,8 @@ reproduction constants.
   [upstream issue #194](https://github.com/microsoft/DebugMCP/issues/194)
 - [VS Code launch termination readiness](issues/vscode-launch-termination-readiness.md)
   — [upstream issue #195](https://github.com/microsoft/DebugMCP/issues/195)
+- [Output after debuggee exit](issues/debug-output-after-exited.md) — upstream
+  publication pending.
 
 The reports link to pinned upstream code. Their fixture links are relative to
 this reproduction repository. Public GitHub issue versions link to this

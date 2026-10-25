@@ -1,0 +1,894 @@
+{
+  "recordedUtc": "2026-10-25T19:59:46.2344671Z",
+  "upstreamRepository": "https://github.com/microsoft/DebugMCP",
+  "upstreamCommit": "d0b4a334a6a3d8d600c5aa75ec60d9de272af3c4",
+  "upstreamVersion": "2.4.4",
+  "sourceDirty": false,
+  "upstreamMainAtCrosscheck": "d0b4a334a6a3d8d600c5aa75ec60d9de272af3c4",
+  "upstreamMainCheckedAtUtc": "2026-10-25T19:46:55.9422578Z",
+  "environment": {
+    "platform": "win32",
+    "architecture": "x64",
+    "node": "v24.22.1"
+  },
+  "publicationStatusAtRecording": "Local draft; no upstream issue has been created.",
+  "investigationTooling": {
+    "product": "OpenAI Codex desktop",
+    "version": "26.1021.31345",
+    "build": "21828",
+    "verifiedDate": "2026-10-25",
+    "role": "Investigation, harness authoring and report preparation. The reproduction runs directly under Node.js."
+  },
+  "validationScope": "Actual DebugSessionTracker, DebugOutputBuffer, DebuggingExecutor and DebuggingHandler. Synthetic DAP messages are delivered through production callbacks returned by the registered tracker factory. Output is read through the production handler with explicit session and prefix/category filters.",
+  "testSeams": [
+    "Constructor-injected VS Code tracker-factory and termination-event API double.",
+    "Local capture-enabled provider; no user or editor setting is changed.",
+    "An error-counting logger sink. No production method overrides or private-state writes."
+  ],
+  "limitations": [
+    "No real editor, debug adapter, debuggee or MCP transport is run.",
+    "The synthetic event sequence is supported by the DAP contract and separate static LLDB-DAP source corroboration; no installed LLDB, vsdbg or debugpy execution was observed.",
+    "This targets the VS Code session tracker path, not the standalone CLI output listener.",
+    "Module hashes provide traceability, not independent proof of source-to-output correspondence."
+  ],
+  "identityPolicy": "Generated session IDs are normalized in the primary trace; opaque cursor values are omitted and their advancement is represented as a boolean. Output markers are harmless synthetic data.",
+  "executionStatePolicy": "The sessionEnded observation is the existing tracker public execution-ended API result, not a claim that a DAP terminated event has already occurred. pausedState equal to the string undefined represents an absent tracked execution state.",
+  "expected": {
+    "capturedMarkerCount": 3,
+    "incrementalMarkersAfterFirstRead": 2,
+    "executionRemainsEndedAfterExited": true,
+    "postDisposeCaptureAndExecutionRemainCleared": true
+  },
+  "staticAdapterCorroboration": {
+    "repository": "https://github.com/llvm/llvm-project",
+    "commit": "06eaf2c9557dfc54a375f2e1d033e493639d02a0",
+    "scope": "Static source inspection only; LLVM was not built or run. On the first termination-helper invocation, configured termination commands with nonempty output can produce console output after exited and before terminated.",
+    "sources": [
+      "https://github.com/llvm/llvm-project/blob/06eaf2c9557dfc54a375f2e1d033e493639d02a0/lldb/tools/lldb-dap/EventHelper.cpp#L474-L479",
+      "https://github.com/llvm/llvm-project/blob/06eaf2c9557dfc54a375f2e1d033e493639d02a0/lldb/tools/lldb-dap/DAP.cpp#L777-L784",
+      "https://github.com/llvm/llvm-project/blob/06eaf2c9557dfc54a375f2e1d033e493639d02a0/lldb/tools/lldb-dap/DAP.cpp#L667-L670",
+      "https://github.com/llvm/llvm-project/blob/06eaf2c9557dfc54a375f2e1d033e493639d02a0/lldb/tools/lldb-dap/DAP.cpp#L605-L612"
+    ]
+  },
+  "runs": [
+    {
+      "mode": "regression",
+      "exitCode": 1,
+      "expectedExitCodeOnReviewedBaseline": 1,
+      "modeOutcomePassed": false,
+      "durationMs": 144,
+      "controls": {
+        "count": 7,
+        "allSevenPassed": true,
+        "names": [
+          "normal-pagination-execution-end-and-retention",
+          "session-isolation",
+          "capture-disabled",
+          "closed-owner-onWillStopSession",
+          "closed-owner-onExit",
+          "closed-owner-onDidTerminateDebugSession",
+          "stale-tracker-generation"
+        ]
+      },
+      "scenarios": [
+        {
+          "name": "output-between-exited-and-terminated",
+          "captureEnabled": true,
+          "cleanup": {
+            "completed": true,
+            "factoryRegistrations": 0,
+            "terminationSubscriptions": 0,
+            "bufferCleared": true,
+            "oldCallbacksDidNotRecreateCapture": true,
+            "oldCallbacksDidNotRecreateExecutionState": true,
+            "disposedFactoryCreatedNoTracker": true,
+            "loggerErrors": []
+          },
+          "expectedOutputs": [
+            "PROBE|output-exit-review|before-exited\n",
+            "PROBE|output-exit-review|after-exited-one\n",
+            "PROBE|output-exit-review|after-exited-two\n"
+          ],
+          "actualOutputs": [
+            "PROBE|output-exit-review|before-exited\n"
+          ],
+          "firstPage": {
+            "entries": [
+              {
+                "sequence": 1,
+                "category": "console",
+                "output": "PROBE|output-exit-review|before-exited\n",
+                "redacted": false
+              }
+            ],
+            "hasMore": false,
+            "truncated": false
+          },
+          "incremental": {
+            "pageCount": 1,
+            "pages": [
+              {
+                "entries": [],
+                "hasMore": false,
+                "truncated": false
+              }
+            ],
+            "outputs": [],
+            "cursorUnchanged": true
+          },
+          "executionAfterExited": {
+            "sessionEnded": true,
+            "pausedState": "undefined"
+          },
+          "executionAfterLateOutput": {
+            "sessionEnded": true,
+            "pausedState": "undefined"
+          },
+          "healthyContractPassed": false,
+          "exactCurrentBugObserved": true,
+          "deliveredScenarioEvents": [
+            {
+              "phase": "scenario",
+              "owner": "late output owner",
+              "session": "S1",
+              "message": {
+                "seq": 1,
+                "type": "event",
+                "event": "output",
+                "body": {
+                  "category": "console",
+                  "output": "PROBE|output-exit-review|before-exited\n"
+                }
+              }
+            },
+            {
+              "phase": "scenario",
+              "owner": "late output owner",
+              "session": "S1",
+              "message": {
+                "seq": 2,
+                "type": "event",
+                "event": "exited",
+                "body": {
+                  "exitCode": 0
+                }
+              }
+            },
+            {
+              "phase": "scenario",
+              "owner": "late output owner",
+              "session": "S1",
+              "message": {
+                "seq": 3,
+                "type": "event",
+                "event": "output",
+                "body": {
+                  "category": "console",
+                  "output": "PROBE|output-exit-review|after-exited-one\n"
+                }
+              }
+            },
+            {
+              "phase": "scenario",
+              "owner": "late output owner",
+              "session": "S1",
+              "message": {
+                "seq": 4,
+                "type": "event",
+                "event": "output",
+                "body": {
+                  "category": "console",
+                  "output": "PROBE|output-exit-review|after-exited-two\n"
+                }
+              }
+            },
+            {
+              "phase": "scenario",
+              "owner": "late output owner",
+              "session": "S1",
+              "message": {
+                "seq": 5,
+                "type": "event",
+                "event": "terminated",
+                "body": {}
+              }
+            }
+          ]
+        },
+        {
+          "name": "normal-pagination-execution-end-and-retention",
+          "captureEnabled": true,
+          "cleanup": {
+            "completed": true,
+            "factoryRegistrations": 0,
+            "terminationSubscriptions": 0,
+            "bufferCleared": true,
+            "oldCallbacksDidNotRecreateCapture": true,
+            "oldCallbacksDidNotRecreateExecutionState": true,
+            "disposedFactoryCreatedNoTracker": true,
+            "loggerErrors": []
+          },
+          "controlPassed": true,
+          "retainedOutputs": [
+            "PROBE|output-exit-review|normal-one\n",
+            "PROBE|output-exit-review|normal-two\n"
+          ],
+          "retainedPages": [
+            {
+              "entries": [
+                {
+                  "sequence": 1,
+                  "category": "console",
+                  "output": "PROBE|output-exit-review|normal-one\n",
+                  "redacted": false
+                }
+              ],
+              "hasMore": true,
+              "truncated": false
+            },
+            {
+              "entries": [
+                {
+                  "sequence": 2,
+                  "category": "console",
+                  "output": "PROBE|output-exit-review|normal-two\n",
+                  "redacted": false
+                }
+              ],
+              "hasMore": false,
+              "truncated": false
+            },
+            {
+              "entries": [],
+              "hasMore": false,
+              "truncated": false
+            }
+          ],
+          "execution": {
+            "sessionEnded": true,
+            "pausedState": "undefined"
+          }
+        },
+        {
+          "name": "session-isolation",
+          "captureEnabled": true,
+          "cleanup": {
+            "completed": true,
+            "factoryRegistrations": 0,
+            "terminationSubscriptions": 0,
+            "bufferCleared": true,
+            "oldCallbacksDidNotRecreateCapture": true,
+            "oldCallbacksDidNotRecreateExecutionState": true,
+            "disposedFactoryCreatedNoTracker": true,
+            "loggerErrors": []
+          },
+          "controlPassed": true,
+          "sessionAOutputs": [
+            "PROBE|output-exit-review|session-A\n"
+          ],
+          "sessionBOutputs": [
+            "PROBE|output-exit-review|session-B-one\n",
+            "PROBE|output-exit-review|session-B-two\n"
+          ]
+        },
+        {
+          "name": "capture-disabled",
+          "captureEnabled": false,
+          "cleanup": {
+            "completed": true,
+            "factoryRegistrations": 0,
+            "terminationSubscriptions": 0,
+            "bufferCleared": true,
+            "oldCallbacksDidNotRecreateCapture": true,
+            "oldCallbacksDidNotRecreateExecutionState": true,
+            "disposedFactoryCreatedNoTracker": true,
+            "loggerErrors": []
+          },
+          "controlPassed": true,
+          "captureWasDisabled": true,
+          "noHistoryAppearedAfterLocalOptIn": true
+        },
+        {
+          "name": "closed-owner-onWillStopSession",
+          "captureEnabled": true,
+          "cleanup": {
+            "completed": true,
+            "factoryRegistrations": 0,
+            "terminationSubscriptions": 0,
+            "bufferCleared": true,
+            "oldCallbacksDidNotRecreateCapture": true,
+            "oldCallbacksDidNotRecreateExecutionState": true,
+            "disposedFactoryCreatedNoTracker": true,
+            "loggerErrors": []
+          },
+          "controlPassed": true,
+          "retainedOutputs": [
+            "PROBE|output-exit-review|before-owner-close\n"
+          ],
+          "retainedPages": [
+            {
+              "entries": [
+                {
+                  "sequence": 1,
+                  "category": "console",
+                  "output": "PROBE|output-exit-review|before-owner-close\n",
+                  "redacted": false
+                }
+              ],
+              "hasMore": false,
+              "truncated": false
+            },
+            {
+              "entries": [],
+              "hasMore": false,
+              "truncated": false
+            }
+          ],
+          "execution": {
+            "sessionEnded": true,
+            "pausedState": "undefined"
+          }
+        },
+        {
+          "name": "closed-owner-onExit",
+          "captureEnabled": true,
+          "cleanup": {
+            "completed": true,
+            "factoryRegistrations": 0,
+            "terminationSubscriptions": 0,
+            "bufferCleared": true,
+            "oldCallbacksDidNotRecreateCapture": true,
+            "oldCallbacksDidNotRecreateExecutionState": true,
+            "disposedFactoryCreatedNoTracker": true,
+            "loggerErrors": []
+          },
+          "controlPassed": true,
+          "retainedOutputs": [
+            "PROBE|output-exit-review|before-owner-close\n"
+          ],
+          "retainedPages": [
+            {
+              "entries": [
+                {
+                  "sequence": 1,
+                  "category": "console",
+                  "output": "PROBE|output-exit-review|before-owner-close\n",
+                  "redacted": false
+                }
+              ],
+              "hasMore": false,
+              "truncated": false
+            },
+            {
+              "entries": [],
+              "hasMore": false,
+              "truncated": false
+            }
+          ],
+          "execution": {
+            "sessionEnded": true,
+            "pausedState": "undefined"
+          }
+        },
+        {
+          "name": "closed-owner-onDidTerminateDebugSession",
+          "captureEnabled": true,
+          "cleanup": {
+            "completed": true,
+            "factoryRegistrations": 0,
+            "terminationSubscriptions": 0,
+            "bufferCleared": true,
+            "oldCallbacksDidNotRecreateCapture": true,
+            "oldCallbacksDidNotRecreateExecutionState": true,
+            "disposedFactoryCreatedNoTracker": true,
+            "loggerErrors": []
+          },
+          "controlPassed": true,
+          "retainedOutputs": [
+            "PROBE|output-exit-review|before-owner-close\n"
+          ],
+          "retainedPages": [
+            {
+              "entries": [
+                {
+                  "sequence": 1,
+                  "category": "console",
+                  "output": "PROBE|output-exit-review|before-owner-close\n",
+                  "redacted": false
+                }
+              ],
+              "hasMore": false,
+              "truncated": false
+            },
+            {
+              "entries": [],
+              "hasMore": false,
+              "truncated": false
+            }
+          ],
+          "execution": {
+            "sessionEnded": true,
+            "pausedState": "undefined"
+          }
+        },
+        {
+          "name": "stale-tracker-generation",
+          "captureEnabled": true,
+          "cleanup": {
+            "completed": true,
+            "factoryRegistrations": 0,
+            "terminationSubscriptions": 0,
+            "bufferCleared": true,
+            "oldCallbacksDidNotRecreateCapture": true,
+            "oldCallbacksDidNotRecreateExecutionState": true,
+            "disposedFactoryCreatedNoTracker": true,
+            "loggerErrors": []
+          },
+          "controlPassed": true,
+          "execution": {
+            "sessionEnded": false,
+            "pausedState": "true"
+          },
+          "sameSessionIdNewGeneration": true,
+          "generationHistoryOutputs": [
+            "PROBE|output-exit-review|fresh-generation\n"
+          ]
+        }
+      ],
+      "cleanup": {
+        "completed": true,
+        "factoryRegistrationsRemaining": 0,
+        "terminationSubscriptionsRemaining": 0,
+        "errorsOutsideScenarios": []
+      }
+    },
+    {
+      "mode": "confirm-bug",
+      "exitCode": 0,
+      "expectedExitCodeOnReviewedBaseline": 0,
+      "modeOutcomePassed": true,
+      "durationMs": 124,
+      "controls": {
+        "count": 7,
+        "allSevenPassed": true,
+        "names": [
+          "normal-pagination-execution-end-and-retention",
+          "session-isolation",
+          "capture-disabled",
+          "closed-owner-onWillStopSession",
+          "closed-owner-onExit",
+          "closed-owner-onDidTerminateDebugSession",
+          "stale-tracker-generation"
+        ]
+      },
+      "scenarios": [
+        {
+          "name": "output-between-exited-and-terminated",
+          "captureEnabled": true,
+          "cleanup": {
+            "completed": true,
+            "factoryRegistrations": 0,
+            "terminationSubscriptions": 0,
+            "bufferCleared": true,
+            "oldCallbacksDidNotRecreateCapture": true,
+            "oldCallbacksDidNotRecreateExecutionState": true,
+            "disposedFactoryCreatedNoTracker": true,
+            "loggerErrors": []
+          },
+          "expectedOutputs": [
+            "PROBE|output-exit-review|before-exited\n",
+            "PROBE|output-exit-review|after-exited-one\n",
+            "PROBE|output-exit-review|after-exited-two\n"
+          ],
+          "actualOutputs": [
+            "PROBE|output-exit-review|before-exited\n"
+          ],
+          "firstPage": {
+            "entries": [
+              {
+                "sequence": 1,
+                "category": "console",
+                "output": "PROBE|output-exit-review|before-exited\n",
+                "redacted": false
+              }
+            ],
+            "hasMore": false,
+            "truncated": false
+          },
+          "incremental": {
+            "pageCount": 1,
+            "pages": [
+              {
+                "entries": [],
+                "hasMore": false,
+                "truncated": false
+              }
+            ],
+            "outputs": [],
+            "cursorUnchanged": true
+          },
+          "executionAfterExited": {
+            "sessionEnded": true,
+            "pausedState": "undefined"
+          },
+          "executionAfterLateOutput": {
+            "sessionEnded": true,
+            "pausedState": "undefined"
+          },
+          "healthyContractPassed": false,
+          "exactCurrentBugObserved": true,
+          "deliveredScenarioEvents": [
+            {
+              "phase": "scenario",
+              "owner": "late output owner",
+              "session": "S1",
+              "message": {
+                "seq": 1,
+                "type": "event",
+                "event": "output",
+                "body": {
+                  "category": "console",
+                  "output": "PROBE|output-exit-review|before-exited\n"
+                }
+              }
+            },
+            {
+              "phase": "scenario",
+              "owner": "late output owner",
+              "session": "S1",
+              "message": {
+                "seq": 2,
+                "type": "event",
+                "event": "exited",
+                "body": {
+                  "exitCode": 0
+                }
+              }
+            },
+            {
+              "phase": "scenario",
+              "owner": "late output owner",
+              "session": "S1",
+              "message": {
+                "seq": 3,
+                "type": "event",
+                "event": "output",
+                "body": {
+                  "category": "console",
+                  "output": "PROBE|output-exit-review|after-exited-one\n"
+                }
+              }
+            },
+            {
+              "phase": "scenario",
+              "owner": "late output owner",
+              "session": "S1",
+              "message": {
+                "seq": 4,
+                "type": "event",
+                "event": "output",
+                "body": {
+                  "category": "console",
+                  "output": "PROBE|output-exit-review|after-exited-two\n"
+                }
+              }
+            },
+            {
+              "phase": "scenario",
+              "owner": "late output owner",
+              "session": "S1",
+              "message": {
+                "seq": 5,
+                "type": "event",
+                "event": "terminated",
+                "body": {}
+              }
+            }
+          ]
+        },
+        {
+          "name": "normal-pagination-execution-end-and-retention",
+          "captureEnabled": true,
+          "cleanup": {
+            "completed": true,
+            "factoryRegistrations": 0,
+            "terminationSubscriptions": 0,
+            "bufferCleared": true,
+            "oldCallbacksDidNotRecreateCapture": true,
+            "oldCallbacksDidNotRecreateExecutionState": true,
+            "disposedFactoryCreatedNoTracker": true,
+            "loggerErrors": []
+          },
+          "controlPassed": true,
+          "retainedOutputs": [
+            "PROBE|output-exit-review|normal-one\n",
+            "PROBE|output-exit-review|normal-two\n"
+          ],
+          "retainedPages": [
+            {
+              "entries": [
+                {
+                  "sequence": 1,
+                  "category": "console",
+                  "output": "PROBE|output-exit-review|normal-one\n",
+                  "redacted": false
+                }
+              ],
+              "hasMore": true,
+              "truncated": false
+            },
+            {
+              "entries": [
+                {
+                  "sequence": 2,
+                  "category": "console",
+                  "output": "PROBE|output-exit-review|normal-two\n",
+                  "redacted": false
+                }
+              ],
+              "hasMore": false,
+              "truncated": false
+            },
+            {
+              "entries": [],
+              "hasMore": false,
+              "truncated": false
+            }
+          ],
+          "execution": {
+            "sessionEnded": true,
+            "pausedState": "undefined"
+          }
+        },
+        {
+          "name": "session-isolation",
+          "captureEnabled": true,
+          "cleanup": {
+            "completed": true,
+            "factoryRegistrations": 0,
+            "terminationSubscriptions": 0,
+            "bufferCleared": true,
+            "oldCallbacksDidNotRecreateCapture": true,
+            "oldCallbacksDidNotRecreateExecutionState": true,
+            "disposedFactoryCreatedNoTracker": true,
+            "loggerErrors": []
+          },
+          "controlPassed": true,
+          "sessionAOutputs": [
+            "PROBE|output-exit-review|session-A\n"
+          ],
+          "sessionBOutputs": [
+            "PROBE|output-exit-review|session-B-one\n",
+            "PROBE|output-exit-review|session-B-two\n"
+          ]
+        },
+        {
+          "name": "capture-disabled",
+          "captureEnabled": false,
+          "cleanup": {
+            "completed": true,
+            "factoryRegistrations": 0,
+            "terminationSubscriptions": 0,
+            "bufferCleared": true,
+            "oldCallbacksDidNotRecreateCapture": true,
+            "oldCallbacksDidNotRecreateExecutionState": true,
+            "disposedFactoryCreatedNoTracker": true,
+            "loggerErrors": []
+          },
+          "controlPassed": true,
+          "captureWasDisabled": true,
+          "noHistoryAppearedAfterLocalOptIn": true
+        },
+        {
+          "name": "closed-owner-onWillStopSession",
+          "captureEnabled": true,
+          "cleanup": {
+            "completed": true,
+            "factoryRegistrations": 0,
+            "terminationSubscriptions": 0,
+            "bufferCleared": true,
+            "oldCallbacksDidNotRecreateCapture": true,
+            "oldCallbacksDidNotRecreateExecutionState": true,
+            "disposedFactoryCreatedNoTracker": true,
+            "loggerErrors": []
+          },
+          "controlPassed": true,
+          "retainedOutputs": [
+            "PROBE|output-exit-review|before-owner-close\n"
+          ],
+          "retainedPages": [
+            {
+              "entries": [
+                {
+                  "sequence": 1,
+                  "category": "console",
+                  "output": "PROBE|output-exit-review|before-owner-close\n",
+                  "redacted": false
+                }
+              ],
+              "hasMore": false,
+              "truncated": false
+            },
+            {
+              "entries": [],
+              "hasMore": false,
+              "truncated": false
+            }
+          ],
+          "execution": {
+            "sessionEnded": true,
+            "pausedState": "undefined"
+          }
+        },
+        {
+          "name": "closed-owner-onExit",
+          "captureEnabled": true,
+          "cleanup": {
+            "completed": true,
+            "factoryRegistrations": 0,
+            "terminationSubscriptions": 0,
+            "bufferCleared": true,
+            "oldCallbacksDidNotRecreateCapture": true,
+            "oldCallbacksDidNotRecreateExecutionState": true,
+            "disposedFactoryCreatedNoTracker": true,
+            "loggerErrors": []
+          },
+          "controlPassed": true,
+          "retainedOutputs": [
+            "PROBE|output-exit-review|before-owner-close\n"
+          ],
+          "retainedPages": [
+            {
+              "entries": [
+                {
+                  "sequence": 1,
+                  "category": "console",
+                  "output": "PROBE|output-exit-review|before-owner-close\n",
+                  "redacted": false
+                }
+              ],
+              "hasMore": false,
+              "truncated": false
+            },
+            {
+              "entries": [],
+              "hasMore": false,
+              "truncated": false
+            }
+          ],
+          "execution": {
+            "sessionEnded": true,
+            "pausedState": "undefined"
+          }
+        },
+        {
+          "name": "closed-owner-onDidTerminateDebugSession",
+          "captureEnabled": true,
+          "cleanup": {
+            "completed": true,
+            "factoryRegistrations": 0,
+            "terminationSubscriptions": 0,
+            "bufferCleared": true,
+            "oldCallbacksDidNotRecreateCapture": true,
+            "oldCallbacksDidNotRecreateExecutionState": true,
+            "disposedFactoryCreatedNoTracker": true,
+            "loggerErrors": []
+          },
+          "controlPassed": true,
+          "retainedOutputs": [
+            "PROBE|output-exit-review|before-owner-close\n"
+          ],
+          "retainedPages": [
+            {
+              "entries": [
+                {
+                  "sequence": 1,
+                  "category": "console",
+                  "output": "PROBE|output-exit-review|before-owner-close\n",
+                  "redacted": false
+                }
+              ],
+              "hasMore": false,
+              "truncated": false
+            },
+            {
+              "entries": [],
+              "hasMore": false,
+              "truncated": false
+            }
+          ],
+          "execution": {
+            "sessionEnded": true,
+            "pausedState": "undefined"
+          }
+        },
+        {
+          "name": "stale-tracker-generation",
+          "captureEnabled": true,
+          "cleanup": {
+            "completed": true,
+            "factoryRegistrations": 0,
+            "terminationSubscriptions": 0,
+            "bufferCleared": true,
+            "oldCallbacksDidNotRecreateCapture": true,
+            "oldCallbacksDidNotRecreateExecutionState": true,
+            "disposedFactoryCreatedNoTracker": true,
+            "loggerErrors": []
+          },
+          "controlPassed": true,
+          "execution": {
+            "sessionEnded": false,
+            "pausedState": "true"
+          },
+          "sameSessionIdNewGeneration": true,
+          "generationHistoryOutputs": [
+            "PROBE|output-exit-review|fresh-generation\n"
+          ]
+        }
+      ],
+      "cleanup": {
+        "completed": true,
+        "factoryRegistrationsRemaining": 0,
+        "terminationSubscriptionsRemaining": 0,
+        "errorsOutsideScenarios": []
+      }
+    }
+  ],
+  "modules": [
+    {
+      "source": "src/utils/debugSessionTracker.ts",
+      "sourceSha256": "79041e2701c85abd54a5cd69aac23a3970fff7b278d6079b438b03bf8693002a",
+      "compiledSha256": "23283cb31680b69e904c9369ac22508e19aa23321125d26eaa64e3589a1a0cce"
+    },
+    {
+      "source": "src/utils/logger.ts",
+      "sourceSha256": "aa9a9089a8ab7ccda42fe9dd39581335ffd1f10aac0902dab2a6e6c22815832f",
+      "compiledSha256": "b22e48f4944092050d2d46ef9fecf703c67d9ce0c8315c8b705ebd31bd42290f"
+    },
+    {
+      "source": "src/utils/debugOutputBuffer.ts",
+      "sourceSha256": "a57fa28ea140d4f3d1156baba57b5961cf052f16f98025b21c0e9b6e1b3c698d",
+      "compiledSha256": "6103d0ac60a5cd97289b067dffecf4d2fac1fef5e8e12bd0c6e42a81229d8d45"
+    },
+    {
+      "source": "src/utils/secretRedaction.ts",
+      "sourceSha256": "3f75c69335af25e6766abb8961941e18009c4346d90893b7eb8af15fd5a495ad",
+      "compiledSha256": "98926f38e08adefbaafd85078b57fde73f11d4cdd9f1cbac7a929fb3d2c941e6"
+    },
+    {
+      "source": "src/debuggingExecutor.ts",
+      "sourceSha256": "619a28c52bd58eb47a81e7b1a4c64cfe535a1fb1324bf3c32300e072d3f1089e",
+      "compiledSha256": "dc97d34a71e202a7db20b46d6087c4761f1a01aea62908e7bc74b4493cc284d6"
+    },
+    {
+      "source": "src/debugState.ts",
+      "sourceSha256": "099bb652305297c59f0259fea384c2c1a870b5c876a0d584174409de85a54b06",
+      "compiledSha256": "1be018565786ce9d24b09af5f29c327261d76e884fcc89b68a15535406491fea"
+    },
+    {
+      "source": "src/utils/withTimeout.ts",
+      "sourceSha256": "ab47385d9c3b9db6da7d3269c568258d7273b0c6e8751b2967597481506e1ff8",
+      "compiledSha256": "f4014d961e6c8f05c36461daa2c8699dd8b60e19a15d6463bdde185305cf952e"
+    },
+    {
+      "source": "src/utils/debugStartup.ts",
+      "sourceSha256": "0e6bad5b6f3646de68d1028fe6873f61cd346cb8d0e6cae41fb612723c604110",
+      "compiledSha256": "88ab4a093fbe721fa873505e4bdfc605849aef8d6358ac3c823ba795ca5b0bfb"
+    },
+    {
+      "source": "src/debuggingHandler.ts",
+      "sourceSha256": "440d0e43c9040c8db34d9945420404461179566aaf4d4a24d4c6b14dd2f857bb",
+      "compiledSha256": "ce35df2757ed96ac63cba04467dc0a126664f4c72a939495e6427bdea86cb54b"
+    },
+    {
+      "source": "src/utils/debugConfigurationManager.ts",
+      "sourceSha256": "cf73e9fdcf688a36f1b38a95a9bc851ae2e66e724391c9b2d0f403ed19f4654a",
+      "compiledSha256": "923dcf2c9b04129db829a3ea89938c42b0ee61b5b019b3a97b51011b68a3d197"
+    }
+  ],
+  "reproduction": {
+    "script": "scripts/review/debug-output-after-exited.cjs",
+    "loader": "scripts/review/load-debugmcp.cjs",
+    "draft": "docs/issues/debug-output-after-exited.md"
+  }
+}
