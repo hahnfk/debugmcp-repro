@@ -112,5 +112,8 @@ reproduction constants.
   [upstream issue #192](https://github.com/microsoft/DebugMCP/issues/192)
 
 The reports link to pinned upstream code. Their fixture links are relative to
-this reproduction repository. The GitHub issue versions use fixed-commit links
-for those files so the reports remain independent of branch names.
+this reproduction repository. Public GitHub issue versions link to this
+repository's `main` branch and require no feature-branch checkout. Merge the
+reproduction files and documentation through a pull request into `main` before
+publishing an upstream issue, and verify that its links resolve there. Keep the
+tested Microsoft source commit as the separate upstream version baseline.
