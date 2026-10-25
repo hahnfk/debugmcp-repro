@@ -145,8 +145,8 @@ reproduction constants.
   [upstream issue #192](https://github.com/microsoft/DebugMCP/issues/192)
 - [Adapter exit during navigation](issues/cli-adapter-exit-navigation.md) —
   [upstream issue #193](https://github.com/microsoft/DebugMCP/issues/193)
-- [Registry heartbeat recovery](issues/registry-heartbeat-recovery.md) — upstream
-  publication pending.
+- [Registry heartbeat recovery](issues/registry-heartbeat-recovery.md) —
+  [upstream issue #194](https://github.com/microsoft/DebugMCP/issues/194)
 
 The reports link to pinned upstream code. Their fixture links are relative to
 this reproduction repository. Public GitHub issue versions link to this
