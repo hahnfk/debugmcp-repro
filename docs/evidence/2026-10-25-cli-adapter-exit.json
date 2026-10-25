@@ -1,0 +1,285 @@
+{
+  "recordedUtc": "2026-10-25T18:20:45.5900295Z",
+  "upstreamRepository": "https://github.com/microsoft/DebugMCP",
+  "upstreamCommit": "d0b4a334a6a3d8d600c5aa75ec60d9de272af3c4",
+  "upstreamVersion": "2.4.4",
+  "sourceDirty": false,
+  "environment": {
+    "platform": "win32",
+    "architecture": "x64",
+    "node": "v24.22.1"
+  },
+  "validationScope": "Production handler, CLI executor and DAP client with a synthetic stdio adapter and deterministic configuration-provider double; inert vscode import and logger sink; no private state writes or method overrides.",
+  "expectedAfterAdapterExit": {
+    "status": "no-session",
+    "sessionActive": false,
+    "paused": false
+  },
+  "runs": [
+    {
+      "mode": "regression",
+      "exitCode": 1,
+      "expectedExitCode": 1,
+      "passed": false,
+      "durationMs": 2449,
+      "scenarios": 6,
+      "controls": {
+        "sixFreshFirstLaunchesPassed": true,
+        "rejectionPreservesLivePausedSession": true,
+        "normalNavigationPassed": true
+      },
+      "crashes": [
+        {
+          "paused": true,
+          "adapterProcessPresent": false,
+          "status": "paused",
+          "navigation": "step_over",
+          "exactCurrentBugObserved": true,
+          "sessionActive": true
+        },
+        {
+          "paused": true,
+          "adapterProcessPresent": false,
+          "status": "paused",
+          "navigation": "continue_execution",
+          "exactCurrentBugObserved": true,
+          "sessionActive": true
+        }
+      ],
+      "cleanup": true
+    },
+    {
+      "mode": "confirm-bug",
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "passed": true,
+      "durationMs": 2389,
+      "scenarios": 6,
+      "controls": {
+        "sixFreshFirstLaunchesPassed": true,
+        "rejectionPreservesLivePausedSession": true,
+        "normalNavigationPassed": true
+      },
+      "crashes": [
+        {
+          "paused": true,
+          "adapterProcessPresent": false,
+          "status": "paused",
+          "navigation": "step_over",
+          "exactCurrentBugObserved": true,
+          "sessionActive": true
+        },
+        {
+          "paused": true,
+          "adapterProcessPresent": false,
+          "status": "paused",
+          "navigation": "continue_execution",
+          "exactCurrentBugObserved": true,
+          "sessionActive": true
+        }
+      ],
+      "cleanup": true
+    }
+  ],
+  "scenarios": [
+    {
+      "mode": "crash",
+      "navigation": "step_over",
+      "dapCommand": "next",
+      "firstLaunchPassed": true,
+      "expected": {
+        "navigationError": "adapter exited with exit code 23",
+        "status": "no-session",
+        "sessionActive": false,
+        "paused": false
+      },
+      "actual": {
+        "navigationError": "Error executing step over: Error: Debug adapter exited with exit code 23",
+        "adapterProcessPresent": false,
+        "status": "paused",
+        "sessionActive": true,
+        "paused": true
+      },
+      "regressionPassed": false,
+      "exactCurrentBugObserved": true,
+      "controlPassed": null,
+      "cleanupCompleted": true
+    },
+    {
+      "mode": "reject",
+      "navigation": "step_over",
+      "dapCommand": "next",
+      "firstLaunchPassed": true,
+      "expected": {
+        "navigationError": "synthetic rejection",
+        "status": "paused",
+        "sessionActive": true,
+        "paused": true
+      },
+      "actual": {
+        "navigationError": "Error executing step over: Error: Synthetic navigation rejection; adapter remains paused.",
+        "adapterProcessPresent": true,
+        "status": "paused",
+        "sessionActive": true,
+        "paused": true
+      },
+      "regressionPassed": null,
+      "exactCurrentBugObserved": null,
+      "controlPassed": true,
+      "cleanupCompleted": true
+    },
+    {
+      "mode": "success",
+      "navigation": "step_over",
+      "dapCommand": "next",
+      "firstLaunchPassed": true,
+      "expected": {
+        "navigationError": null,
+        "status": "paused",
+        "sessionActive": true,
+        "paused": true,
+        "line": 6
+      },
+      "actual": {
+        "navigationError": null,
+        "adapterProcessPresent": true,
+        "status": "paused",
+        "sessionActive": true,
+        "paused": true
+      },
+      "regressionPassed": null,
+      "exactCurrentBugObserved": null,
+      "controlPassed": true,
+      "cleanupCompleted": true
+    },
+    {
+      "mode": "crash",
+      "navigation": "continue_execution",
+      "dapCommand": "continue",
+      "firstLaunchPassed": true,
+      "expected": {
+        "navigationError": "adapter exited with exit code 23",
+        "status": "no-session",
+        "sessionActive": false,
+        "paused": false
+      },
+      "actual": {
+        "navigationError": "Error executing continue: Error: Debug adapter exited with exit code 23",
+        "adapterProcessPresent": false,
+        "status": "paused",
+        "sessionActive": true,
+        "paused": true
+      },
+      "regressionPassed": false,
+      "exactCurrentBugObserved": true,
+      "controlPassed": null,
+      "cleanupCompleted": true
+    },
+    {
+      "mode": "reject",
+      "navigation": "continue_execution",
+      "dapCommand": "continue",
+      "firstLaunchPassed": true,
+      "expected": {
+        "navigationError": "synthetic rejection",
+        "status": "paused",
+        "sessionActive": true,
+        "paused": true
+      },
+      "actual": {
+        "navigationError": "Error executing continue: Error: Synthetic navigation rejection; adapter remains paused.",
+        "adapterProcessPresent": true,
+        "status": "paused",
+        "sessionActive": true,
+        "paused": true
+      },
+      "regressionPassed": null,
+      "exactCurrentBugObserved": null,
+      "controlPassed": true,
+      "cleanupCompleted": true
+    },
+    {
+      "mode": "success",
+      "navigation": "continue_execution",
+      "dapCommand": "continue",
+      "firstLaunchPassed": true,
+      "expected": {
+        "navigationError": null,
+        "status": "no-session",
+        "sessionActive": false,
+        "paused": false
+      },
+      "actual": {
+        "navigationError": null,
+        "adapterProcessPresent": false,
+        "status": "no-session",
+        "sessionActive": false,
+        "paused": false
+      },
+      "regressionPassed": null,
+      "exactCurrentBugObserved": null,
+      "controlPassed": true,
+      "cleanupCompleted": true
+    }
+  ],
+  "controls": {
+    "sixFreshFirstLaunchesPassed": true,
+    "rejectionPreservesLivePausedSession": true,
+    "normalNavigationPassed": true
+  },
+  "cleanup": {
+    "ownedFixtureProcessCount": 6,
+    "remainingProcessCount": 0,
+    "completed": true,
+    "errors": []
+  },
+  "loadedModules": [
+    {
+      "source": "src/cli/cliDebuggingExecutor.ts",
+      "sourceSha256": "a16f143a57e675b18e8c0ed2bc26d8fc18f577f05ed5eed247f5cfcffc5f52f1",
+      "compiledSha256": "1581220ae58c9f2c4c1b3fc8a51ab0697a8cd1b7c0fa7e10665435f85c8184e1"
+    },
+    {
+      "source": "src/debugState.ts",
+      "sourceSha256": "099bb652305297c59f0259fea384c2c1a870b5c876a0d584174409de85a54b06",
+      "compiledSha256": "1be018565786ce9d24b09af5f29c327261d76e884fcc89b68a15535406491fea"
+    },
+    {
+      "source": "src/cli/dapClient.ts",
+      "sourceSha256": "46da17f1491aef49443ab4760874b0a9005cb31efcef337070ea3a245ccd5bd6",
+      "compiledSha256": "e7ef7add25e0f2a4e7aea3781020b720c6ab6475761740e49d6fd38b469f4a3c"
+    },
+    {
+      "source": "src/utils/logger.ts",
+      "sourceSha256": "aa9a9089a8ab7ccda42fe9dd39581335ffd1f10aac0902dab2a6e6c22815832f",
+      "compiledSha256": "b22e48f4944092050d2d46ef9fecf703c67d9ce0c8315c8b705ebd31bd42290f"
+    },
+    {
+      "source": "src/utils/debugOutputBuffer.ts",
+      "sourceSha256": "a57fa28ea140d4f3d1156baba57b5961cf052f16f98025b21c0e9b6e1b3c698d",
+      "compiledSha256": "6103d0ac60a5cd97289b067dffecf4d2fac1fef5e8e12bd0c6e42a81229d8d45"
+    },
+    {
+      "source": "src/utils/secretRedaction.ts",
+      "sourceSha256": "3f75c69335af25e6766abb8961941e18009c4346d90893b7eb8af15fd5a495ad",
+      "compiledSha256": "98926f38e08adefbaafd85078b57fde73f11d4cdd9f1cbac7a929fb3d2c941e6"
+    },
+    {
+      "source": "src/debuggingHandler.ts",
+      "sourceSha256": "440d0e43c9040c8db34d9945420404461179566aaf4d4a24d4c6b14dd2f857bb",
+      "compiledSha256": "ce35df2757ed96ac63cba04467dc0a126664f4c72a939495e6427bdea86cb54b"
+    },
+    {
+      "source": "src/utils/debugConfigurationManager.ts",
+      "sourceSha256": "cf73e9fdcf688a36f1b38a95a9bc851ae2e66e724391c9b2d0f403ed19f4654a",
+      "compiledSha256": "923dcf2c9b04129db829a3ea89938c42b0ee61b5b019b3a97b51011b68a3d197"
+    },
+    {
+      "source": "src/utils/withTimeout.ts",
+      "sourceSha256": "ab47385d9c3b9db6da7d3269c568258d7273b0c6e8751b2967597481506e1ff8",
+      "compiledSha256": "f4014d961e6c8f05c36461daa2c8699dd8b60e19a15d6463bdde185305cf952e"
+    }
+  ],
+  "localValues": "PIDs, session IDs, run IDs and absolute local paths are omitted; none is a reproduction constant.",
+  "publicationStatusAtRecording": "Local working files; no new upstream issue published. Reproduction files must first be merged by PR into main before a separately authorized issue publication."
+}
