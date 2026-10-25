@@ -107,7 +107,8 @@ Published findings are reported as
 (second CLI launch readiness). The adapter-exit finding is tracked in
 [Microsoft/DebugMCP#193](https://github.com/microsoft/DebugMCP/issues/193), and registry
 recovery in [Microsoft/DebugMCP#194](https://github.com/microsoft/DebugMCP/issues/194).
-The VS Code launch-readiness report is awaiting upstream publication.
+The VS Code launch-readiness report is tracked in
+[Microsoft/DebugMCP#195](https://github.com/microsoft/DebugMCP/issues/195).
 Issue instructions and reproduction links use
 this repository's `main` branch. Publish reproduction material through a merged
 pull request before creating an upstream issue; the tested Microsoft source

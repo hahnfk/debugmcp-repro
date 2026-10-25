@@ -166,7 +166,7 @@ reproduction constants.
 - [Registry heartbeat recovery](issues/registry-heartbeat-recovery.md) —
   [upstream issue #194](https://github.com/microsoft/DebugMCP/issues/194)
 - [VS Code launch termination readiness](issues/vscode-launch-termination-readiness.md)
-  — upstream publication pending.
+  — [upstream issue #195](https://github.com/microsoft/DebugMCP/issues/195)
 
 The reports link to pinned upstream code. Their fixture links are relative to
 this reproduction repository. Public GitHub issue versions link to this
