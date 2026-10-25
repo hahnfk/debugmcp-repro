@@ -106,8 +106,10 @@ reproduction constants.
 
 ## Issue reports
 
-- [Unmatched workspace routing](issues/unmatched-workspace-routing.md)
-- [Second CLI launch readiness](issues/cli-second-start-readiness.md)
+- [Unmatched workspace routing](issues/unmatched-workspace-routing.md) —
+  [upstream issue #191](https://github.com/microsoft/DebugMCP/issues/191)
+- [Second CLI launch readiness](issues/cli-second-start-readiness.md) —
+  [upstream issue #192](https://github.com/microsoft/DebugMCP/issues/192)
 
 The reports link to pinned upstream code. Their fixture links are relative to
 this reproduction repository. The GitHub issue versions use fixed-commit links

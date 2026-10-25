@@ -1,5 +1,7 @@
 # Explicit unmatched workspace paths can be forwarded to a different VS Code window
 
+Reported in [Microsoft/DebugMCP#191](https://github.com/microsoft/DebugMCP/issues/191).
+
 ## Environment and scope
 
 - Microsoft/DebugMCP commit: `d0b4a334a6a3d8d600c5aa75ec60d9de272af3c4` (`main`, package version 2.4.4).

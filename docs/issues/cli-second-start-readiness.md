@@ -1,5 +1,7 @@
 # A second standalone CLI launch reports completion while the new session is paused
 
+Reported in [Microsoft/DebugMCP#192](https://github.com/microsoft/DebugMCP/issues/192).
+
 ## Summary
 
 Reusing one standalone CLI handler after a debug session ends makes the next

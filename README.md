@@ -94,4 +94,10 @@ compiled code from a separately supplied Microsoft/DebugMCP checkout and use
 isolated recording workers or a synthetic DAP adapter. Their default mode checks
 the healthy contract; `--expect-current-bug` verifies the specific observed
 defect signatures and positive controls. See the procedure for setup, scope,
-expected exit codes, and the two local issue drafts.
+expected exit codes, and the issue reports.
+
+These findings are reported as
+[Microsoft/DebugMCP#191](https://github.com/microsoft/DebugMCP/issues/191)
+(unmatched workspace routing) and
+[Microsoft/DebugMCP#192](https://github.com/microsoft/DebugMCP/issues/192)
+(second CLI launch readiness). Both issues pin the tested reproduction commit.
